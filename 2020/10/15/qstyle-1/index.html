@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则 | 夜的狸猫</title><meta name="keywords" content="qt,linux"><meta name="author" content="jal"><meta name="copyright" content="jal"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="qstyle婴儿级开发，先搞个奶瓶。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则">
+<meta property="og:url" content="https://nightcivet.site/2020/10/15/qstyle-1/index.html">
+<meta property="og:site_name" content="夜的狸猫">
+<meta property="og:description" content="qstyle婴儿级开发，先搞个奶瓶。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nightcivet.site/2020/10/15/qstyle-1/top.jpg">
+<meta property="article:published_time" content="2020-10-15T01:53:40.000Z">
+<meta property="article:modified_time" content="2020-10-15T07:05:18.206Z">
+<meta property="article:author" content="jal">
+<meta property="article:tag" content="qt">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nightcivet.site/2020/10/15/qstyle-1/top.jpg"><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="https://nightcivet.site/2020/10/15/qstyle-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="baidu-site-verification" content="e63ee3bbdbdf5e8d2bf2700831ce3c8f"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3dea20b951078f7fe0ed1de57bb14bda";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-15 15:05:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg"></div><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#qtcreator%E7%9A%84cmake%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">qtcreator的cmake工程目录结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8Bdemo%E7%9B%AE%E5%BD%95%E5%86%85%E5%AE%B9"><span class="toc-number">3.</span> <span class="toc-text">建立demo目录内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8Bstyle%E7%9B%AE%E5%BD%95%E5%86%85%E5%AE%B9"><span class="toc-number">4.</span> <span class="toc-text">建立style目录内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%8C%E6%88%90%EF%BC%81"><span class="toc-number">5.</span> <span class="toc-text">基本完成！</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/2020/10/15/qstyle-1/top.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">夜的狸猫</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-15T01:53:40.000Z" title="发表于 2020-10-15 09:53:40">2020-10-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-15T07:05:18.206Z" title="更新于 2020-10-15 15:05:18">2020-10-15</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2020/10/15/qstyle-1/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/10/15/qstyle-1/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>迷迷糊糊的去开发了关于qstyle的插件，完成后竟一脑浆糊，都不知道是什么东西。<br>这个qstyle插件主要改了各种部件的样式，从最底部改，比较全面高级。<br>有空就慢慢自己重新构建一下简单的demo，仔细看看具体qstyle插件的具体开发流程吧。</p>
+<p>框架基于<a target="_blank" rel="noopener" href="https://github.com/FedoraQt/adwaita-qt">adwaita</a>项目，后续会在上面添加点效果和样式。</p>
+<p>当然这是后话，先踏出第一步吧。</p>
+<p>​                                                            </p>
+<h4 id="qtcreator的cmake工程目录结构"><a href="#qtcreator的cmake工程目录结构" class="headerlink" title="qtcreator的cmake工程目录结构"></a>qtcreator的cmake工程目录结构</h4><p>新建一个cmake的工程，里面添加目录，一个style用于开发qtyle的库，另一个demo用于随便整一个简单的app应用并用上开发出来的库测试效果。</p>
+<p>先分别在demo和style下建立CMakeLists.txt文件，先是空的，再在上一层的CMakeLists.txt添加add_subdirectory(demo)和add_subdirectory(style)，就能在qtcreator工程看见目录结构了！</p>
+<p>​                                                   </p>
+<h4 id="建立demo目录内容"><a href="#建立demo目录内容" class="headerlink" title="建立demo目录内容"></a>建立demo目录内容</h4><p>在demo那里右键添加一个简单的ui类，选择widget：</p>
+<p><img src="/2020/10/15/qstyle-1/new-ui-file.png"></p>
+<p>会生成头文件和ui文件和cpp文件。</p>
+<p>再把demo目录的CMakeLists.txt添加刚刚新建的内容：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(demo_SRCS</span><br><span class="line">    main.cpp</span><br><span class="line">    demo.cpp</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(demo_UI</span><br><span class="line">    demo.ui</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(demo <span class="variable">$&#123;demo_SRCS&#125;</span>)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(demo Qt5::Core Qt5::Widgets)</span><br></pre></td></tr></table></figure>
+
+<p>先随便拖一个button进去ui文件里吧。</p>
+<p>main.cpp文件整一个app即可，应用style先留空：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;demo.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">    QApplication::setStyle(<span class="string">&quot;&quot;</span>);</span><br><span class="line">    demo fact;</span><br><span class="line">    fact.show();</span><br><span class="line">    <span class="keyword">return</span> app.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​                                                 </p>
+<h4 id="建立style目录内容"><a href="#建立style目录内容" class="headerlink" title="建立style目录内容"></a>建立style目录内容</h4><p>这里先把必要的内容写下，目录下新建一个贯穿全文的类——QStylePlugin类，当然我们是他的子类styleplugin，头文件写入：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> STYLEPLUGIN_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> STYLEPLUGIN_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QStylePlugin&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StylePlugin</span> :</span> <span class="keyword">public</span> QStylePlugin</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        Q_OBJECT</span><br><span class="line"></span><br><span class="line">        Q_PLUGIN_METADATA(IID <span class="string">&quot;org.qt-project.Qt.QStyleFactoryInterface&quot;</span> FILE <span class="string">&quot;mystyle.json&quot;</span> )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">//* constructor</span></span><br><span class="line">        <span class="function"><span class="keyword">explicit</span> <span class="title">StylePlugin</span><span class="params">(QObject *parent = <span class="number">0</span>)</span>:</span></span><br><span class="line"><span class="function">            <span class="title">QStylePlugin</span><span class="params">(parent)</span></span></span><br><span class="line"><span class="function">        </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//* destructor</span></span><br><span class="line">        ~StylePlugin();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//* returns list of valid keys</span></span><br><span class="line">        <span class="function">QStringList <span class="title">keys</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//* create style</span></span><br><span class="line">        <span class="function">QStyle* <span class="title">create</span><span class="params">( <span class="keyword">const</span> QString&amp; )</span></span>;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// STYLEPLUGIN_H</span></span></span><br></pre></td></tr></table></figure>
+
+<p>网上说这句Q_PLUGIN_METADATA(IID “org.qt-project.Qt.QStyleFactoryInterface” FILE “mystyle.json” )是十分重要的，但我不太理解这是什么东西。查资料说是创建了qt插件的符号，标识了新建的qt插件，emmmm我在暂时理解为起了个名字让以后使用提供名字符号？应该是这样？emmm先不求甚解毕竟有点迷糊。<br>如我的mystyle.json里面的内容是{ “Keys”: [ “mystyle” ] }，意思是我的style插件名字是mystyle这个。app里面setStyle()就可以填入这个名字参数了。</p>
+<p>ok，cpp文件写入：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;styleplugin.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;mystyle.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QApplication&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">QStyle* <span class="title">StylePlugin::create</span><span class="params">( <span class="keyword">const</span> QString &amp;key )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>( key.toLower() == QStringLiteral( <span class="string">&quot;mystyle&quot;</span> ) )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MyStyle();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">StylePlugin::~StylePlugin()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">QStringList <span class="title">StylePlugin::keys</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123; <span class="keyword">return</span> QStringList() &lt;&lt; QStringLiteral( <span class="string">&quot;mystyle&quot;</span> ); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里都是按照格式写一写(chao yi chao)，这个MyStyle类就是我们自己改qt部件样式的具体内容类了！</p>
+<p>然后是mystyle.h，继承于QCommonStyle：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> MYSTYLE_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MYSTYLE_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QCommonStyle&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyStyle</span> :</span> <span class="keyword">public</span> QCommonStyle</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//* constructor</span></span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">MyStyle</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//* destructor</span></span><br><span class="line">    <span class="keyword">virtual</span> ~MyStyle(<span class="keyword">void</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// MYSTYLE_H</span></span></span><br></pre></td></tr></table></figure>
+
+<p>先留空，再是mystyle.cpp：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;mystyle.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MyStyle::MyStyle()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyStyle::~MyStyle()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>嘿嘿。。留空留空。</p>
+<p>添加style的cmakelists内容：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span>(myStyle_SRCS</span><br><span class="line">    styleplugin.cpp</span><br><span class="line">    mystyle.cpp</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">add_definitions(-DQT_PLUGIN)</span><br><span class="line"></span><br><span class="line">include_directories(</span><br><span class="line">    $&#123;QT_INCLUDES&#125;</span><br><span class="line">    $&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span><br><span class="line">    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(LIBRARY_NAME <span class="string">&quot;mystyle-qt$&#123;QT_VERSION_NUMBER&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">add_library($&#123;LIBRARY_NAME&#125; MODULE $&#123;myStyle_SRCS&#125;)</span><br><span class="line">target_link_libraries($&#123;LIBRARY_NAME&#125; $&#123;QT_QTCORE_LIBRARY&#125; $&#123;QT_QTGUI_LIBRARY&#125; $&#123;QT_QTDBUS_LIBRARY&#125;)</span><br><span class="line">set_target_properties($&#123;LIBRARY_NAME&#125; PROPERTIES</span><br><span class="line">    LINK_FLAGS <span class="string">&quot;-Wl,--no-undefined&quot;</span></span><br><span class="line">    LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_CURRENT_BINARY_DIR&#125;&quot;</span></span><br><span class="line">    OUTPUT_NAME <span class="string">&quot;mystyle&quot;</span></span><br><span class="line">    PREFIX <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">install(TARGETS $&#123;LIBRARY_NAME&#125; DESTINATION <span class="string">&quot;$&#123;QT_PLUGINS_DIR&#125;/styles&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这边后半部分比较重要，这个目录主要生成的是动态库，使用了一些字段设置了一下这个库，<br>add_library创建接口库，然后为这个库链接一些库，再设置一下他的属性。<br>安装目录在默认的/usr/lib64/qt5/plugin/style里。</p>
+<p>回到项目根目录的CMakeLists.txt，可以添加一下依赖关系了：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>.<span class="number">11</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(mystyle)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_INCLUDE_CURRENT_DIR <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOMOC <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_AUTOUIC <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">add_definitions</span>(-std=c++<span class="number">11</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(Qt5Core REQUIRED)</span><br><span class="line"><span class="keyword">find_package</span>(Qt5Gui REQUIRED)</span><br><span class="line"><span class="keyword">find_package</span>(Qt5Widgets REQUIRED)</span><br><span class="line"><span class="keyword">find_package</span>(Qt5DBus REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(QT_QTGUI_LIBRARY Qt5::Gui Qt5::Widgets)</span><br><span class="line"><span class="keyword">set</span>(QT_QTCORE_LIBRARY Qt5::Core)</span><br><span class="line"><span class="keyword">set</span>(QT_QTDBUS_LIBRARY Qt5::DBus)</span><br><span class="line"></span><br><span class="line"><span class="keyword">get_target_property</span>(REAL_QMAKE_EXECUTABLE <span class="variable">$&#123;Qt5Core_QMAKE_EXECUTABLE&#125;</span></span><br><span class="line">                   IMPORTED_LOCATION)</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">NOT</span> QT_PLUGINS_DIR)</span><br><span class="line">    <span class="keyword">execute_process</span>(<span class="keyword">COMMAND</span> <span class="string">&quot;$&#123;REAL_QMAKE_EXECUTABLE&#125;&quot;</span> -query QT_INSTALL_PLUGINS</span><br><span class="line">                    OUTPUT_VARIABLE QT_PLUGINS_DIR</span><br><span class="line">                    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(demo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(style)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中set(CMAKE_AUTOUIC ON)这一句尤为关键。新建ui类时他会包含一个ui_xxx.h头文件，这个要生成的不是自己写的，但我怎么都没有生成，就是没有开这个开关。嗨呀~</p>
+<p>​                               </p>
+<h4 id="基本完成！"><a href="#基本完成！" class="headerlink" title="基本完成！"></a>基本完成！</h4><p>额其实也没搞太多哈哈哈，就是先搞好层次嘛。</p>
+<p>look at our 层次：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── CMakeLists.txt.user</span><br><span class="line">├── demo</span><br><span class="line">│   ├── CMakeLists.txt</span><br><span class="line">│   ├── demo.cpp</span><br><span class="line">│   ├── demo.h</span><br><span class="line">│   ├── demo.ui</span><br><span class="line">│   └── main.cpp</span><br><span class="line">└── style</span><br><span class="line">    ├── CMakeLists.txt</span><br><span class="line">    ├── mystyle.cpp</span><br><span class="line">    ├── mystyle.h</span><br><span class="line">    ├── mystyle.json</span><br><span class="line">    ├── styleplugin.cpp</span><br><span class="line">    └── styleplugin.h</span><br></pre></td></tr></table></figure>
+
+<p>稍微编译一下，看到构建目录的demo下有个demo程序，style目录下有个mystyle.so，就大功告成！</p>
+<p>甚至可以运行一下那个程序：</p>
+<p><img src="/2020/10/15/qstyle-1/demo.png"></p>
+<p>也可以在qtcreator中项目设置里设置运行程序，点运行即可运行：</p>
+<p><img src="/2020/10/15/qstyle-1/run-setting.png"></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://nightcivet.site/about/">jal</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://nightcivet.site/2020/10/15/qstyle-1/">https://nightcivet.site/2020/10/15/qstyle-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://nightcivet.site" target="_blank">夜的狸猫</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/qt/">qt</a><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/10/05/kde-apperances-opt/"><img class="next-cover" src="/2020/10/05/kde-apperances-opt/full-screen.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">KDE桌面 SDDM 面板 桌面 KWIN美化日志</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(/img/dolphin.jpg)"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">good night (=.=)</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: 'uJj69WR1u8TgRkpqkV7HNyEM-gzGzoHsz',
+      appKey: 'WxvNjedwbuuxwLTSh0eg441d',
+      placeholder: '怎么了？说说看~',
+      avatar: 'monsterid',
+      meta: 'nick'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>

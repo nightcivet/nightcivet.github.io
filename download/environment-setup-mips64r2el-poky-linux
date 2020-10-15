@@ -1,0 +1,46 @@
+export SDKTARGETSYSROOT=/opt/mips-linux-obj/tool/mips64el-3a-linux-gnu/sysroot
+export PATH=/opt/mips-linux-obj/tool/mips64el-3a-linux-gnu/sysroot/usr/bin:/opt/mips-linux-obj/tool/mips64el-3a-linux-gnu/sysroot/usr/sbin:/opt/mips-linux-obj/tool/bin:$PATH
+export CMAKE_PREFIX_PATH=/usr/lib/mips64el-linux-gnuabi64/cmake
+export QMAKESPEC=/usr/lib/mips64el-linux-gnuabi64/qt5/mkspecs/linux-g++
+export OECORE_NATIVE_SYSROOT="/opt/mips-linux-obj/tool/mips64el-3a-linux-gnu/sysroot"
+export OECORE_TARGET_SYSROOT="$SDKTARGETSYSROOT"
+export OPENGL_opengl_LIBRARY=/usr/lib/mips64el-linux-gnuabi64/libGL.so
+unset command_not_found_handle
+export CC="mips64el-3a-linux-gnu-gcc  -mel -mhard-float -mabi=64 -march=mips64r2 -I$SDKTARGETSYSROOT/usr/include --sysroot=$SDKTARGETSYSROOT"
+export CXX="mips64el-3a-linux-gnu-g++  -mhard-float -mabi=64 -march=mips64r2 -I$SDKTARGETSYSROOT/usr/include --sysroot=$SDKTARGETSYSROOT"
+export CPP="mips64el-3a-linux-gnu-gcc -E  -mel -mbi=64 -mhard-float -march=mips64r2 -I$SDKTARGETSYSROOT/usr/include --sysroot=$SDKTARGETSYSROOT"
+export AS="mips64el-3a-linux-gnu-as "
+export LD="mips64el-3a-linux-gnu-ld  -rpath --sysroot=$SDKTARGETSYSROOT -m elf64ltsmip"
+export GDB=mips64el-3a-linux-gnu-gdb
+export STRIP=mips64el-3a-linux-gnu-strip
+export RANLIB=mips64el-3a-linux-gnu-ranlib
+export OBJCOPY=mips64el-3a-linux-gnu-objcopy
+export OBJDUMP=mips64el-3a-linux-gnu-objdump
+export AR=mips64el-3a-linux-gnu-ar
+export NM=mips64el-3a-linux-gnu-nm
+export M4=m4
+export TARGET_PREFIX=mips64el-3a-linux-gnu-
+export CONFIGURE_FLAGS="--target=mips64el-3a-linux-gnu --host=mips64el-3a-linux-gnu --build=i686-linux --with-libtool-sysroot=$SDKTARGETSYSROOT"
+export CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types "
+export CXXFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types "
+export LDFLAGS="-Wl,-O1  -Wl,--as-needed"
+export CPPFLAGS=""
+export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"
+export OECORE_DISTRO_VERSION="2.2.4"
+export OECORE_SDK_VERSION="2.2.4"
+export ARCH=mips
+export CROSS_COMPILE=mips64el-3a-linux-gnu-
+
+# Append environment subscripts
+if [ -d "$OECORE_TARGET_SYSROOT/environment-setup.d" ]; then
+    echo "there is environment-setup.d"
+    for envfile in $OECORE_TARGET_SYSROOT/environment-setup.d/*.sh; do
+	    . $envfile
+    done
+fi
+if [ -d "$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
+	echo "there is environment-setup.x86"
+    for envfile in $OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh; do
+	    . $envfile
+    done
+fi
