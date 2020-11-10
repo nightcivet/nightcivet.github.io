@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>关于获取、解析、分析dbus返回值 —— xml的使用 | 夜的狸猫</title><meta name="keywords" content="dbus,c,c++"><meta name="author" content="jal"><meta name="copyright" content="jal"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="要的当然是米其林轮胎。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于获取、解析、分析dbus返回值 —— xml的使用">
+<meta property="og:url" content="https://nightcivet.site/dbus-data-get-3/index.html">
+<meta property="og:site_name" content="夜的狸猫">
+<meta property="og:description" content="要的当然是米其林轮胎。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nightcivet.site/dbus-data-get-3/top.jpeg">
+<meta property="article:published_time" content="2020-11-10T02:50:46.000Z">
+<meta property="article:modified_time" content="2020-11-10T03:58:59.441Z">
+<meta property="article:author" content="jal">
+<meta property="article:tag" content="dbus">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nightcivet.site/dbus-data-get-3/top.jpeg"><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="https://nightcivet.site/dbus-data-get-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="baidu-site-verification" content="e63ee3bbdbdf5e8d2bf2700831ce3c8f"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3dea20b951078f7fe0ed1de57bb14bda";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-10 11:58:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">10</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">11</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg"></div><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E6%B1%82"><span class="toc-number">1.</span> <span class="toc-text">追求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E7%9A%84%E6%8E%A5%E5%8F%A3%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">生成的接口类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">类型处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E8%B5%B7%E6%9D%A5%EF%BC%81"><span class="toc-number">4.</span> <span class="toc-text">用起来！</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/dbus-data-get-3/top.jpeg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">夜的狸猫</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">关于获取、解析、分析dbus返回值 —— xml的使用</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-10T02:50:46.000Z" title="发表于 2020-11-10 10:50:46">2020-11-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-10T03:58:59.441Z" title="更新于 2020-11-10 11:58:59">2020-11-10</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/dbus-data-get-3/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/dbus-data-get-3/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><a class="btn-beautify button--animated outline blue larger" target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38627652" title="去我的csdn博客看看呗"><i class="far fa-hand-point-right fa-fw"></i><span>去我的csdn博客看看呗</span></a>
+
+<a class="btn-beautify button--animated outline blue larger" href="https://nightcivet.site/dbus-data-get/" title="关于获取、解析、分析dbus返回值 —— glib库"><i class="far fa-hand-point-right fa-fw"></i><span>关于获取、解析、分析dbus返回值 —— glib库</span></a>
+
+<a class="btn-beautify button--animated outline blue larger" href="https://nightcivet.site/dbus-data-get-2/" title="关于获取、解析、分析dbus返回值 —— QDBus类"><i class="far fa-hand-point-right fa-fw"></i><span>关于获取、解析、分析dbus返回值 —— QDBus类</span></a>
+
+<hr>
+<p>​                                              </p>
+<h3 id="追求"><a href="#追求" class="headerlink" title="追求"></a>追求</h3><p>偶然在一个别的源码看到一个更方便的写法。</p>
+<p>总体来说就一个xml和一些类型配置就解决了所有的问题，关键是这种方法是真的很方便简洁，如果以后需要调用别的dbus也可以模仿一下。</p>
+<p>先总结一下主要的流程：</p>
+<ol>
+<li><a href="org.freedesktop.login1.Manager.xml">xml</a> 中写好标准的dbus接口写法，感觉是官方给出来的，但又找不到哈哈哈。好吧就算官方找不到自己写也行，就是有点多；</li>
+<li>cmake中可以通过QT5_ADD_DBUS_INTERFACE宏把xml自动生成cpp和h文件，主要提供了总线的方法接口；</li>
+<li>新建cpp和h文件处理一些复合类型数据，合入到生成的总线接口类中；</li>
+</ol>
+<p>​                                           </p>
+<h3 id="生成的接口类"><a href="#生成的接口类" class="headerlink" title="生成的接口类"></a>生成的接口类</h3><p>有了xml后，在CMakeList.txt中加入:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QT5_ADD_DBUS_INTERFACE(DBUS_INTERFACE_SRCS</span><br><span class="line">    org.freedesktop.login1.Manager.xml</span><br><span class="line">    login1_manager</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>命名为DBUS_INTERFACE_SRCS了，在add_executable后面添加此源add_executable(${PROJECT_NAME} “main.cpp” xxx… ${DBUS_INTERFACE_SRCS} )</p>
+<p>在cmake的build目录里，会生成名为login1_manager.cpp和头文件，名字也是自己定的。</p>
+<p>查看生成的login1_manager.h，它生成了一个OrgFreedesktopLogin1ManagerInterface类，继承QDBusAbstractInterface，就是qdbus类相关的操作，而后面的接口类似</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">inline</span> QDBusPendingReply&lt;InhibitorList&gt; <span class="title">ListInhibitors</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">QList&lt;QVariant&gt; argumentList;</span><br><span class="line"><span class="keyword">return</span> asyncCallWithArgumentList(QStringLiteral(<span class="string">&quot;ListInhibitors&quot;</span>), argumentList);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> QDBusPendingReply&lt;NamedSeatPathList&gt; <span class="title">ListSeats</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">QList&lt;QVariant&gt; argumentList;</span><br><span class="line"><span class="keyword">return</span> asyncCallWithArgumentList(QStringLiteral(<span class="string">&quot;ListSeats&quot;</span>), argumentList);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> QDBusPendingReply&lt;SessionInfoList&gt; <span class="title">ListSessions</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">QList&lt;QVariant&gt; argumentList;</span><br><span class="line"><span class="keyword">return</span> asyncCallWithArgumentList(QStringLiteral(<span class="string">&quot;ListSessions&quot;</span>), argumentList);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> QDBusPendingReply&lt;UserInfoList&gt; <span class="title">ListUsers</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">QList&lt;QVariant&gt; argumentList;</span><br><span class="line"><span class="keyword">return</span> asyncCallWithArgumentList(QStringLiteral(<span class="string">&quot;ListUsers&quot;</span>), argumentList);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> QDBusPendingReply&lt;&gt; <span class="title">LockSession</span><span class="params">(<span class="keyword">const</span> QString &amp;in0)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">QList&lt;QVariant&gt; argumentList;</span><br><span class="line">argumentList &lt;&lt; QVariant::fromValue(in0);</span><br><span class="line"><span class="keyword">return</span> asyncCallWithArgumentList(QStringLiteral(<span class="string">&quot;LockSession&quot;</span>), argumentList);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>全都是自动生成！</p>
+<p>后面可以使用此类直接调用需要的方法了。</p>
+<p>​                                       </p>
+<h3 id="类型处理"><a href="#类型处理" class="headerlink" title="类型处理"></a>类型处理</h3><p>在上一节中有提到，就是元数据声明定义之类的，把它同一放起来就行。</p>
+<p>在CMakeList.txt中添加</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set_source_files_properties</span>(<span class="string">&quot;$&#123;CMAKE_SOURCE_DIR&#125;/org.freedesktop.login1.Manager.xml&quot;</span> PROPERTIES</span><br><span class="line">   <span class="keyword">INCLUDE</span> <span class="string">&quot;LogindDBusTypes.h&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>使它包含这个类型头文件，在这类型头文件里进行元数据声明，流操作定义，元数据注册操作即可。</p>
+<p>感觉也是官方给的，就是找不到官方的地址了，这些看起来格式都一样，改也很容易改</p>
+<p><a href="LogindDBusTypes.cpp">LogindDBusTypes.cpp</a></p>
+<p><a href="LogindDBusTypes.h">LogindDBusTypes.h</a></p>
+<p>由于生成的接口类头文件login1_manager.h是在cmake构建工程目录上面的，所以它会找不到处在源文件目录上的LogindDBusTypes.h，这时只需要拷贝这个头文件过去即可：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">configure_file</span>(<span class="string">&quot;LogindDBusTypes.h&quot;</span> <span class="string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/LogindDBusTypes.h&quot;</span> COPYONLY)</span><br></pre></td></tr></table></figure>
+
+<p>​                                      </p>
+<h3 id="用起来！"><a href="#用起来！" class="headerlink" title="用起来！"></a>用起来！</h3><p>用就更简单了，直接疯狂调用接口即可：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Logind::isAvailable()) &#123;</span><br><span class="line">        <span class="function">OrgFreedesktopLogin1ManagerInterface <span class="title">manager</span><span class="params">(Logind::serviceName(), Logind::managerPath(), QDBusConnection::systemBus())</span></span>;</span><br><span class="line">        <span class="keyword">auto</span> reply = manager.ListSessions();</span><br><span class="line">        reply.waitForFinished();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; reply.value().count(); i++)&#123;</span><br><span class="line">            qCritical() &lt;&lt; reply.value().at(i).userName;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://nightcivet.site/about/">jal</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://nightcivet.site/dbus-data-get-3/">https://nightcivet.site/dbus-data-get-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://nightcivet.site" target="_blank">夜的狸猫</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/dbus/">dbus</a><a class="post-meta__tags" href="/tags/c/">c</a><a class="post-meta__tags" href="/tags/c/">c++</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/dbus-data-get-2/"><img class="next-cover" src="/dbus-data-get-2/top.jpeg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">关于获取、解析、分析dbus返回值 —— QDBus类</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/dbus-data-get-2/" title="关于获取、解析、分析dbus返回值 —— QDBus类"><img class="cover" src="/dbus-data-get-2/top.jpeg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-04</div><div class="title">关于获取、解析、分析dbus返回值 —— QDBus类</div></div></a></div><div><a href="/dbus-data-get/" title="关于获取、解析、分析dbus返回值 —— glib库"><img class="cover" src="/dbus-data-get/top.jpeg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-03</div><div class="title">关于获取、解析、分析dbus返回值 —— glib库</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(/img/dolphin.jpg)"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">good night (=.=)</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: 'uJj69WR1u8TgRkpqkV7HNyEM-gzGzoHsz',
+      appKey: 'WxvNjedwbuuxwLTSh0eg441d',
+      placeholder: '怎么了？说说看~',
+      avatar: 'monsterid',
+      meta: 'nick'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>
