@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>ftp配置（linux系统）</title>
+      <link href="linux-ftp-config/"/>
+      <url>linux-ftp-config/</url>
+      
+        <content type="html"><![CDATA[<p>​                   </p><h4 id="下载vsftpd"><a href="#下载vsftpd" class="headerlink" title="下载vsftpd"></a>下载vsftpd</h4><p>sudo yum install vsftpd</p><p>​                            </p><h4 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h4><p>vim /etc/vsftpd/vsftpd.conf</p><p>​                               </p><h5 id="取消注释或更改配置："><a href="#取消注释或更改配置：" class="headerlink" title="取消注释或更改配置："></a>取消注释或更改配置：</h5><p>anonymous_enable=YES             允许匿名</p><p>anon_upload_enable=YES           允许匿名上传</p><p>anon_mkdir_write_enable=YES    允许匿名创建目录</p><p>​                                      </p><h5 id="添加配置："><a href="#添加配置：" class="headerlink" title="添加配置："></a>添加配置：</h5><p>anon_umask=022                            匿名上传权限掩码<br>anon_root=/var/ftp                            匿名ftp根目录<br>anon_other_write_enable=YES        匿名其他读写权限<br>anon_max_rate=0                            不限知速率</p><p>​                                       </p><h4 id="重启服务"><a href="#重启服务" class="headerlink" title="重启服务"></a>重启服务</h4><p>systemctl restart vsftpd</p><p>​                                  </p><h4 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h4><p>tags:解除一下sellinux限制 sudo setsebool -P allow_ftpd_full_access on</p><p>​                                          </p><h5 id="匿名"><a href="#匿名" class="headerlink" title="匿名"></a>匿名</h5><p>正常来说已经可以下载文件了，使用匿名登录可访问下载服务器/var/ftp/pub上的文件。</p><p>可上传还是有问题，需要服务器改变文件夹权限：sudo chmod 777 /var/ftp/pub，就可上传文件到服务器和一些写文件操作了。</p><h5 id="非匿名"><a href="#非匿名" class="headerlink" title="非匿名"></a>非匿名</h5><p>可正常运行。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> ftp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>初识qml——PathView QQmlContext c++类与qml的数据交互</title>
       <link href="pathview-demo-3/"/>
       <url>pathview-demo-3/</url>
@@ -152,9 +173,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> linux </tag>
+            
+            <tag> qt </tag>
             
             <tag> qstyle </tag>
             
@@ -175,9 +196,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> linux </tag>
+            
+            <tag> qt </tag>
             
             <tag> qstyle </tag>
             
@@ -198,9 +219,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> linux </tag>
+            
+            <tag> qt </tag>
             
             <tag> qstyle </tag>
             
@@ -221,9 +242,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> linux </tag>
+            
+            <tag> qt </tag>
             
         </tags>
       
