@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>绘制svg | 夜的狸猫</title><meta name="keywords" content="svg"><meta name="author" content="jal"><meta name="copyright" content="jal"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="要不来画画吧，诶不存在。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="绘制svg">
+<meta property="og:url" content="https://nightcivet.site/paint-svg/index.html">
+<meta property="og:site_name" content="夜的狸猫">
+<meta property="og:description" content="要不来画画吧，诶不存在。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nightcivet.site/paint-svg/top.jpeg">
+<meta property="article:published_time" content="2021-03-12T01:35:43.000Z">
+<meta property="article:modified_time" content="2021-03-12T02:40:23.880Z">
+<meta property="article:author" content="jal">
+<meta property="article:tag" content="svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nightcivet.site/paint-svg/top.jpeg"><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="https://nightcivet.site/paint-svg/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="baidu-site-verification" content="e63ee3bbdbdf5e8d2bf2700831ce3c8f"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3dea20b951078f7fe0ed1de57bb14bda";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-03-12 10:40:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg"></div><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#SVG"><span class="toc-number">1.</span> <span class="toc-text">SVG</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E7%94%BB"><span class="toc-number">2.</span> <span class="toc-text">开画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OHHHHHHHHHHHHHHHHHHHHHHHHHHH"><span class="toc-number">3.</span> <span class="toc-text">OHHHHHHHHHHHHHHHHHHHHHHHHHHH</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/paint-svg/top.jpeg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">夜的狸猫</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">绘制svg</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-12T01:35:43.000Z" title="发表于 2021-03-12 09:35:43">2021-03-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-03-12T02:40:23.880Z" title="更新于 2021-03-12 10:40:23">2021-03-12</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/paint-svg/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/paint-svg/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>​                                              </p>
+<h3 id="SVG"><a href="#SVG" class="headerlink" title="SVG"></a>SVG</h3><p>svg是什么呢，是…（百度一下）</p>
+<blockquote>
+<p>SVG是一种图像<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/6156907">文件格式</a>，它的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%8B%B1%E6%96%87/3079091">英文</a>全称为Scalable Vector Graphics，意思为可缩放的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%BD%A2/1450649">矢量图形</a>。它是基于<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/XML/86251">XML</a>（Extensible Markup Language），由World Wide Web Consortium（<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/W3C/216888">W3C</a>）联盟进行开发的。严格来说应该是一种开放标准的矢量图形语言，可让你设计激动人心的、高分辨率的Web图形页面。用户可以直接用<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BB%A3%E7%A0%81/86048">代码</a>来描绘图像，可以用任何文字处理工具打开SVG图像，通过改变部分代码来使图像具有交互功能，并可以随时插入到<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/HTML/97049">HTML</a>中通过浏览器来观看。</p>
+</blockquote>
+<p>哈哈简短的说矢量图，矢量图粗俗点说，就是这张图无论你放多大他还是很清晰的，矢量嘛。</p>
+<p>那么想画矢量图关键就是学着描绘这些矢量了，其中path元素就最基础同时也最多变，path是什么呢，是…（梅开二百度）</p>
+<blockquote>
+<p>path元素是SVG基本形状中最强大的一个，它不仅能创建其他基本形状，还能创建更多其他形状。你可以用path元素绘制矩形（直角矩形或者圆角矩形）、圆形、椭圆、折线形、多边形，以及一些其他的形状，例如贝塞尔曲线、2次曲线等曲线。path元素的形状是通过属性d来定义的，属性d的值是一个“命令+参数”的序列。</p>
+</blockquote>
+<p>​                                                          </p>
+<h3 id="开画"><a href="#开画" class="headerlink" title="开画"></a>开画</h3><p>新建一个文档，就叫rect.svg。</p>
+<p>编写格式是xml格式，所以基本明白一些主要的元素功能就能搞定了。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">&quot;230&quot;</span> <span class="attr">height</span>=<span class="string">&quot;230&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>再定义一个组<g>，组是什么呢，是…（再度）</g></p>
+<blockquote>
+<p>SVG <g>元素用于将SVG形状分组在一起。分组后，您可以像变形单个形状一样变换整个形状。与 不能单独成为转换目标的嵌套 <svg>元素相比，这是一个优势。您还可以设置分组元素的样式，并像对待单个元素一样重复使用它们。</svg></g></p>
+</blockquote>
+<p>大概像那个<div>？比如在组里定义透明度为1那么组内所有元素透明度都是1.</div></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">&quot;230&quot;</span> <span class="attr">height</span>=<span class="string">&quot;230&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">g</span> <span class="attr">style</span>=<span class="string">&quot;opacity:1&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">g</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后开始定义路径了，首先想干嘛呢，想做一个正方形按钮，按钮是圆角的，按钮内有一个正方形框的图案。</p>
+<p>先有一个草图，大概先规划一些比例。</p>
+<p>图片长宽230，四周留空20，按钮长宽就是190了，正方形框图案在按钮正中央，长宽都是90，框长10。</p>
+<p>这些数据很重要，因为后面的path像是在坐标轴上定点连线，这时需要了解一些命令：</p>
+<blockquote>
+<p>M 移动到的点的x轴和y轴的坐标<br>H 绘制平行线<br>V 绘制垂直线<br>Z 关闭路径，回到起点。<br>大写表示绝对定位，小写表示相对定位。</p>
+</blockquote>
+<p>绝对定位，指的是以最左上角为原点的坐标轴定位，相对就是以当前的点作为原点。</p>
+<p>坐标轴，x轴向右，y轴向下。</p>
+<p>外层的这个按钮，可以利用rect元素简单描绘一下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">&quot;230&quot;</span> <span class="attr">height</span>=<span class="string">&quot;230&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">g</span> <span class="attr">style</span>=<span class="string">&quot;opacity:1&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rect</span> <span class="attr">x</span>=<span class="string">&quot;20&quot;</span> <span class="attr">y</span>=<span class="string">&quot;20&quot;</span> <span class="attr">rx</span>=<span class="string">&quot;22&quot;</span> <span class="attr">ry</span>=<span class="string">&quot;22&quot;</span> <span class="attr">width</span>=<span class="string">&quot;190&quot;</span> <span class="attr">height</span>=<span class="string">&quot;190&quot;</span> <span class="attr">fill</span>=<span class="string">&quot;#e8e8e8&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">g</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后就变成了这样</p>
+<p><img src="/paint-svg/svg-1.png"></p>
+<p>接着想一想图案，它90的长宽，那么它的起点应该就在（70，70）这个位置。</p>
+<p>所以先移动：M70 70                     </p>
+<p>已经到这个点了，那么可以使用相对位置了，接着向下画90的直线，再向右画90：</p>
+<p>M70 70 v90 h90</p>
+<p>这时脑海里想着上面是什么，没错那是一个L。然后就向上走啦，当然可以v-90这样写，也可以V70，一个相对一个绝对，但其实都是同一个点。</p>
+<p>最后z，就自动回到起点（70，70），形成一个正方形：</p>
+<p>M70 70 v90 h90 v-90 z</p>
+<p>这时方框的外线，还有一个内线，让框长10，也就是还要画一个长宽70的正方形。因为这个框要填颜色的，所以另起一个路径是不行的，所以在刚那个路径继续画，现在的点在哪？在（70，70），也就是外正方形的左上角，这时想去内正方形的左上角，只需要m10 10即可，然后操作都一样啦：</p>
+<p>M70 70 v90 h90 v-90 z m10 10 h70 v70 h-70 z</p>
+<p>填冲颜色加起来就是：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">&quot;230&quot;</span> <span class="attr">height</span>=<span class="string">&quot;230&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">g</span> <span class="attr">style</span>=<span class="string">&quot;opacity:1&quot;</span>&gt;</span></span><br><span class="line">	  <span class="tag">&lt;<span class="name">rect</span> <span class="attr">x</span>=<span class="string">&quot;20&quot;</span> <span class="attr">y</span>=<span class="string">&quot;20&quot;</span> <span class="attr">rx</span>=<span class="string">&quot;22&quot;</span> <span class="attr">ry</span>=<span class="string">&quot;22&quot;</span> <span class="attr">width</span>=<span class="string">&quot;190&quot;</span> <span class="attr">height</span>=<span class="string">&quot;190&quot;</span> <span class="attr">fill</span>=<span class="string">&quot;#e8e8e8&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">path</span> <span class="attr">d</span>=<span class="string">&quot;M70 70 v90 h90 v-90 z m10 10h70v70h-70z&quot;</span> <span class="attr">fill</span>=<span class="string">&quot;#202020&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">g</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>看起来就是：</p>
+<p><img src="/paint-svg/svg-2.png"></p>
+<p>​                                                              </p>
+<h3 id="OHHHHHHHHHHHHHHHHHHHHHHHHHHH"><a href="#OHHHHHHHHHHHHHHHHHHHHHHHHHHH" class="headerlink" title="OHHHHHHHHHHHHHHHHHHHHHHHHHHH"></a>OHHHHHHHHHHHHHHHHHHHHHHHHHHH</h3><p>关键要理解各个命令，各个元素就其实很简单啦。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://nightcivet.site/about/">jal</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://nightcivet.site/paint-svg/">https://nightcivet.site/paint-svg/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://nightcivet.site" target="_blank">夜的狸猫</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/svg/">svg</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/grdesktop/"><img class="next-cover" src="/grdesktop/top.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">为命令添加图形</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(/img/dolphin.jpg)"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">good night (=.=)</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: 'uJj69WR1u8TgRkpqkV7HNyEM-gzGzoHsz',
+      appKey: 'WxvNjedwbuuxwLTSh0eg441d',
+      placeholder: '怎么了？说说看~',
+      avatar: 'monsterid',
+      meta: 'nick'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>
