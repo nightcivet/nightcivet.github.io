@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>那些年恶心过的脚本 —— 修改用户配置 | 夜的狸猫</title><meta name="keywords" content="linux,shell"><meta name="author" content="jal"><meta name="copyright" content="jal"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="脚本这东西，反正就莫名其妙很烦">
+<meta property="og:type" content="article">
+<meta property="og:title" content="那些年恶心过的脚本 —— 修改用户配置">
+<meta property="og:url" content="https://nightcivet.site/linux-shell-1/index.html">
+<meta property="og:site_name" content="夜的狸猫">
+<meta property="og:description" content="脚本这东西，反正就莫名其妙很烦">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nightcivet.site/linux-shell-1/top.jpg">
+<meta property="article:published_time" content="2021-03-15T07:49:19.000Z">
+<meta property="article:modified_time" content="2021-03-15T10:05:39.780Z">
+<meta property="article:author" content="jal">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nightcivet.site/linux-shell-1/top.jpg"><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="https://nightcivet.site/linux-shell-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="preconnect" href="//zz.bdstatic.com"/><meta name="baidu-site-verification" content="e63ee3bbdbdf5e8d2bf2700831ce3c8f"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3dea20b951078f7fe0ed1de57bb14bda";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-03-15 18:05:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">17</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">15</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg"></div><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%95%85%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">背景故事</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E5%AE%9E%E5%91%BD%E4%BB%A4%E5%B0%B1%E6%9C%89"><span class="toc-number">2.</span> <span class="toc-text">其实命令就有</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell%E8%84%9A%E6%9C%AC"><span class="toc-number">3.</span> <span class="toc-text">shell脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OHHHHHHHHHHHHHHHHHHHHHHHHHHHHh"><span class="toc-number">4.</span> <span class="toc-text">OHHHHHHHHHHHHHHHHHHHHHHHHHHHHh</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(/linux-shell-1/top.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">夜的狸猫</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">那些年恶心过的脚本 —— 修改用户配置</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-15T07:49:19.000Z" title="发表于 2021-03-15 15:49:19">2021-03-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-03-15T10:05:39.780Z" title="更新于 2021-03-15 18:05:39">2021-03-15</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/linux-shell-1/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/linux-shell-1/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>​                                                         </p>
+<h3 id="背景故事"><a href="#背景故事" class="headerlink" title="背景故事"></a>背景故事</h3><p>这天想换一个压缩软件，装完后发现默认不是它，当然桌面打开方式也支持为此类文件选择默认程序，但比如我为.tar.gz选择了默认打开程序，.zip文件竟然还不是。</p>
+<p>后来查了查这俩文件的mime_type都不同，一个是application/x-compressed-tar，另一个是application/zip。mime_type是什么呢？</p>
+<blockquote>
+<p>MIME的全称是Multipurpose Internet Mail Extensions，即多用途互联网邮件扩展类型。</p>
+<p>这是HTTP协议中用来定义文档性质及格式的标准。IETF RFC 6838，对HTTP传输内容类型进行了全面定义。<br>而 IANA(互联网号码分配机构)是负责管理所有标准MIME类型的官方机构。可以在这里)找到所有的标准MIME。</p>
+<p>服务器通过MIME告知响应内容类型，而浏览器则通过MIME类型来确定如何处理文档。</p>
+<p>MIME的格式：</p>
+<p>type/subtype</p>
+<p>这是一个两级的分类，第一级分类通常包含text，image，audio，video，applications，multipart和message。</p>
+<p>第二级非常多，通俗的理解成第一级的细分。</p>
+</blockquote>
+<p>这linux桌面系统也用mimetypes区别分类，那先别管那么多，目的很简单，就是想安装这个压缩软件rpm包时自动把默认压缩软件变成它。</p>
+<p>​                         </p>
+<h3 id="其实命令就有"><a href="#其实命令就有" class="headerlink" title="其实命令就有"></a>其实命令就有</h3><blockquote>
+<p>[jal@localhost Desktop]$ xdg-mime –help<br>   xdg-mime - command line tool for querying information about<br>   file type handling and adding descriptions for new file types</p>
+<p>Synopsis</p>
+<p>   xdg-mime query { filetype | default } …</p>
+<p>   xdg-mime default application mimetype(s)</p>
+<p>   xdg-mime install [–mode mode] [–novendor] mimetypes-file</p>
+<p>   xdg-mime uninstall [–mode mode] mimetypes-file</p>
+<p>   xdg-mime { –help | –manual | –version }</p>
+<p>Use ‘man xdg-mime’ or ‘xdg-mime –manual’ for additional info.</p>
+</blockquote>
+<p>其中 xdg-mime default application mimetype(s) 就适合这次目的。</p>
+<p>比如xdg-mime default org.kde.ark.desktop application/x-compressed-tar就成功修改了.tar.gz的默认打开程序为ark。</p>
+<p>尝试过编辑srpm包中的spec文件的%post区域，即安装后运行N个xdg-mime命令，但还是不行因为rpm安装的时候是以超级用户安装的，这个xdg-mime命令也改的只是root用户的配置，对于普通用户是不生效的。</p>
+<p>但也由此发现，原来有配置文件配置着这一切~/.config/mimeapps.list，瞅一眼这个文件里面一目了然嘛</p>
+<blockquote>
+<p>[Default Applications]<br>x-scheme-handler/http=google-chrome.desktop<br>x-scheme-handler/https=google-chrome.desktop<br>x-scheme-handler/about=google-chrome.desktop<br>x-scheme-handler/unknown=google-chrome.desktop<br>…<br>…<br>…<br>[Added Associations]<br>…<br>…</p>
+</blockquote>
+<p>这个..尝试直接写一个application/zip=org.kde.ark.desktop上去，发现是生效的。</p>
+<p>那就打算直接在spec文件的%post字段执行脚本，改用户配置就行了。</p>
+<p>​                                                </p>
+<h3 id="shell脚本"><a href="#shell脚本" class="headerlink" title="shell脚本"></a>shell脚本</h3><p>脚本这东西，就是你用的时候永远都不记得了的东西。</p>
+<p>那么也尽量做得通用一点。大概的想法是这个脚本要配一个参数，参数就是要设置的默认压缩软件的desktop文件名，脚本里有支持的mimetypes设置，当要增加直接增加即可。</p>
+<p>老规矩先想想，当然这里是马后炮哈哈哈，刚开始想没这么多，都是执行几次后发现不行再补漏，但其实核心也没变多少，补也是补细节罢了。</p>
+<ol>
+<li><p>参数过滤</p>
+<p>脚本脚本，都是一边搞一边百度”linux 脚本如何xxx”。。</p>
+<p>这里简单判断下首先参数为一个：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if [ ! $# -eq 1 ] ;then</span><br><span class="line">	echo use [cmd] [archive program desktop file]</span><br><span class="line">	exit 1 </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>这里百度到这个$#代表参数个数，不包含脚本自己本身。</p>
+<p>​                </p>
+<p>然后判断下参数是不是dekstop文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if [[ ! $1 == *&quot;.desktop&quot; ]] ;then</span><br><span class="line">	echo not a desktop file</span><br><span class="line">	exit 1</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>这里是百度判断字符串是否包含xxx，这个方法不错。</p>
+<p>用到的是两个中括号，额又百度下大概 [[]] 是 [] 的拓展，比后者强大很多，比如支持正则表达式，这里就用到了正则表达式。</p>
+</li>
+</ol>
+<ol start="2">
+<li><p>扩展支持</p>
+<p>这里肯定是定义数组了，不然下面肯定有一堆重复的代码了，关键只是在shell里面的数组和后续的遍历不太懂，所以又得百度一下。</p>
+<p>好吧定义数组是这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">support_mime_type=(</span><br><span class="line">&quot;application/x-tar&quot;</span><br><span class="line">&quot;application/x-compressed-tar&quot;</span><br><span class="line">&quot;application/x-xz-compressed-tar&quot;</span><br><span class="line">&quot;application/x-compressed-tar&quot;</span><br><span class="line">&quot;application/x-bzip-compressed-tar&quot;</span><br><span class="line">&quot;application/x-tarz&quot;</span><br><span class="line">&quot;application/x-cbr&quot;</span><br><span class="line">&quot;application/vnd.rar&quot;</span><br><span class="line">&quot;application/x-7z-compressed&quot;</span><br><span class="line">&quot;application/x-java-archive&quot;</span><br><span class="line">&quot;application/vnd.comicbook+zip&quot;</span><br><span class="line">&quot;application/zip&quot;</span><br><span class="line">&quot;application/x-rpm&quot;</span><br><span class="line">&quot;image/svg+xml-compressed&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>有数组就有遍历，后续的遍历格式是这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for mime_type in $&#123;support_mime_type[*]&#125;</span><br><span class="line">do</span><br><span class="line">	echo mime_type</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>修改流程</p>
+<p>最关键就数这里了。</p>
+<p>a）首先找到所有用户，或是说列出所有用户，命令读取多个参数并循环执行可以使用这个办法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ls /home/ | while read line</span><br><span class="line">do</span><br><span class="line">	...</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>b）判断用户内是否存在.config目录，如果没有那大概率不是一个用户目录，就不执行下去：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if [ -d /home/$line/.config ]; then</span><br><span class="line">	echo find /home/$line/.config</span><br><span class="line">	...</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>c）判断用户是否存在mimeapps.list文件，如果有就说明配置过，直接处理，如果没有就新建一个再进行处理，：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if [ -e /home/$line/.config/mimeapps.list ]; then</span><br><span class="line">		echo find /home/$line/.config/mimeapps.list</span><br><span class="line">		...</span><br><span class="line">else</span><br><span class="line">		echo not find /home/$line/.config/mimeapps.list</span><br><span class="line">		touch /home/$line/.config/mimeapps.list</span><br><span class="line">		chmod 777 /home/$line/.config/mimeapps.list</span><br><span class="line">		echo [Default Applications] &gt;&gt; /home/$line/.config/mimeapps.list</span><br><span class="line">		...</span><br><span class="line">			</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>d）有了mimeapps.list这个文件，就直接根据support_mime_type修改这个文件的内容，当然就是sed了。对于已存在mimeapps.list文件的，先判断有没有配置过相关类型默认打开方式，如果有就覆盖掉了，如果没有就加上，所以加起来就是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">for mime_type in $&#123;support_mime_type[*]&#125;</span><br><span class="line">do</span><br><span class="line">	grep $&#123;mime_type&#125; /home/$line/.config/mimeapps.list &gt; /dev/null</span><br><span class="line">	if [ $? -eq 0 ] ;then</span><br><span class="line">		echo &quot;find setting $&#123;mime_type&#125;&quot;</span><br><span class="line">		sed -i &#x27;s#&#x27;$&#123;mime_type&#125;&#x27;=.*#&#x27;$&#123;mime_type&#125;&#x27;=&#x27;$1&#x27;#g&#x27; /home/$line/.config/mimeapps.list</span><br><span class="line">	else</span><br><span class="line">		echo not setting $&#123;mime_type&#125;  yet</span><br><span class="line">		sed -i &#x27;/\[Default Applications\]/a&#x27;$&#123;mime_type&#125;&#x27;=&#x27;$1&#x27;&#x27; /home/$line/.config/mimeapps.list</span><br><span class="line">	fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>在sed匹配命令里用到变量，要用单引号括起来。额就是字符串里加变量，不然变量就不是变量了就是字符串。</p>
+<p>判断有没有配置过用grep看看文件有没有包含字段就行，有就整行替换了，整行替换用到.*匹配。</p>
+<p>没有的话先匹配[Default Applications]字段，然后在下一行加就行，当然中括号属于特殊字符，前面加个反斜杠表示它是字符串。</p>
+<p>​                                            </p>
+<p>先前没有mimeapps.list文件的当然也属于没有配置过，也直接加即可。</p>
+</li>
+</ol>
+<h3 id="OHHHHHHHHHHHHHHHHHHHHHHHHHHHHh"><a href="#OHHHHHHHHHHHHHHHHHHHHHHHHHHHHh" class="headerlink" title="OHHHHHHHHHHHHHHHHHHHHHHHHHHHHh"></a>OHHHHHHHHHHHHHHHHHHHHHHHHHHHHh</h3><p>把脚本放到/usr/bin/下面，改一下权限。</p>
+<p>再运行一下，再看看配置文件mimeapps.list，再在桌面上双击一下试试。</p>
+<p>当然是生效的！</p>
+<p>在软件包的spec加上即可。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://nightcivet.site/about/">jal</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://nightcivet.site/linux-shell-1/">https://nightcivet.site/linux-shell-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://nightcivet.site" target="_blank">夜的狸猫</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a><a class="post-meta__tags" href="/tags/shell/">shell</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/paint-svg/"><img class="next-cover" src="/paint-svg/top.jpeg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">绘制svg</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/linux-ftp-config/" title="ftp配置（linux系统）"><img class="cover" src="/linux-ftp-config/top.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-25</div><div class="title">ftp配置（linux系统）</div></div></a></div><div><a href="/qstyle-2/" title="qstyle 一步一个jio印（2）——子元素编辑 样式效果初现"><img class="cover" src="/qstyle-2/top.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-16</div><div class="title">qstyle 一步一个jio印（2）——子元素编辑 样式效果初现</div></div></a></div><div><a href="/qstyle-3/" title="qstyle 一步一个jio印（3）—— 添加动画 水波纹效果"><img class="cover" src="/qstyle-3/top.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-22</div><div class="title">qstyle 一步一个jio印（3）—— 添加动画 水波纹效果</div></div></a></div><div><a href="/qstyle-4/" title="qstyle 一步一个jio印（4）—— 整理框架 阅读理解"><img class="cover" src="/qstyle-4/top.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-26</div><div class="title">qstyle 一步一个jio印（4）—— 整理框架 阅读理解</div></div></a></div><div><a href="/qstyle-1/" title="qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则"><img class="cover" src="/qstyle-1/top.jpg"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-15</div><div class="title">qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(/img/dolphin.jpg)"><div id="footer-wrap"><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">good night (=.=)</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const initData = {
+      el: '#vcomment',
+      appId: 'uJj69WR1u8TgRkpqkV7HNyEM-gzGzoHsz',
+      appKey: 'WxvNjedwbuuxwLTSh0eg441d',
+      placeholder: '怎么了？说说看~',
+      avatar: 'monsterid',
+      meta: 'nick'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick'.split(','))
+    }
+
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>(function(){
+  const bp = document.createElement('script');
+  const curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+  bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  bp.dataset.pjax = ''
+  const s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})()</script></div></body></html>
