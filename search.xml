@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>从零开始的qplugin之——理解理解</title>
+      <link href="qplugin-demo-2/"/>
+      <url>qplugin-demo-2/</url>
+      
+        <content type="html"><![CDATA[<p>​                                                       </p><h3 id="是什么？"><a href="#是什么？" class="headerlink" title="是什么？"></a>是什么？</h3><p>在CSDN上有一位大佬很详细的写全了qplugin的插件机制</p><p><a href="https://blog.csdn.net/newthinker_wei/article/details/41291811?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242">Qt5的插件机制（1）–Qt 框架中的插件加载机制概述</a></p><p>…</p><p>总共还有六篇之多，细细看下来对帮助理解是很有用处的。</p><p>只是大佬说得太详细…剖析得太深入…</p><p>作为菜鸟只能不求甚解，把用到的关键的深入理解一下就完了。</p><h3 id="QPluginLoader"><a href="#QPluginLoader" class="headerlink" title="QPluginLoader"></a>QPluginLoader</h3><p>直面意思，就是加载插件动态库的类，看看大佬里面的描述：</p><blockquote><p>QLibrary 和 QPluginLoader 依赖的’私有数据类’都是 QLibraryPrivate， 一个QLibrary或QPluginLoader的对象都有一个QLibraryPrivate对象，对应一个库或插件；<br>QFactoryLoader 依赖的’私有数据类’是 QFactoryLoaderPrivate ， 但 QFactoryLoaderPrivate 类中又包含了一个QLibraryPrivate列表，这个列表中有多个<br>QLibraryPrivate类型的元素，对应一系列的库或插件；<br>所以可见，QLibraryPrivate是Qt中与库或插件相关的核心数据类，每个库都对应一个QLibraryPrivate对象。</p></blockquote><p>额等等等等，包括下面很多对这个类成员方法的详细解析，最后加载动态库。</p><p>关键来了，用这种方式加载动态库，对编写有什么限制要求？</p><p>​                    </p><h4 id="新建头文件建立库模板"><a href="#新建头文件建立库模板" class="headerlink" title="新建头文件建立库模板"></a>新建头文件建立库模板</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtPlugin&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtGlobal&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">BaseWidget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    BaseWidget(QWidget*) &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~BaseWidget() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Q_DECL_EXPORT</span> <span class="title">PluginLibrary</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    PluginLibrary() &#123;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~PluginLibrary() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> BaseWidget* <span class="title">create</span><span class="params">(QWidget *parent = <span class="literal">nullptr</span>)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Q_DECLARE_INTERFACE(PluginLibrary, <span class="string">&quot;PluginInterface/1.0&quot;</span>)</span><br></pre></td></tr></table></figure><p>库模板里只有一个方法create返回库实体，选择返回一个widget，就是说这次插件设计一个widget，加载插件库就能获得widget啦，而widget的设计可以后续在编辑插件库的时候再实现。</p><p>这里用的全都是虚函数，具体的实现就是在插件库里面形成，也就是插件库的类都是这个类的子类。它，是爸爸。</p><p>这边出现了许许多多的宏，根据大佬的深入解析看看：</p><p><strong>Q_DECL_EXPORT：</strong> </p><p>声明了此类导出动态库；</p><p><strong>Q_DECLARE_INTERFACE：</strong></p><blockquote><p>Q_INTERFACES宏也是与qobject_cast相关，没有Q_DECLARE_INTERFACE和Q_INTERFACES这两个宏，就无法对从插件中获取的实例指针进行qobject_cast映射。<br>不过，Q_INTERFACES宏并没有在Qt的源码中定义，他是MOC的菜，MOC会利用这个宏生成一些代码。要注意一点，如果一个头文件或源文件中用到了Q_INTERFACES宏，<br>那么在调用这个宏之前，必须存在一个 Q_DECLARE_INTERFACE宏声明相应的接口（或者包含一个用Q_DECLARE_INTERFACE宏声明了该接口的头文件），MOC会检查这一点，因为它在为Q_INTERFACES宏生成代码时要用到Q_DECLARE_INTERFACE宏的IID参数。</p></blockquote><p>跟后续插件类子类的宏Q_INTERFACES息息相关，让加载时返回qobject_cast&lt;PluginLibrary*&gt;(obj)实体，实现映射。</p><p>参数也有两个，第一个就是类名，第二就是IID，多用处检查库版本。</p><p>​                    </p><h4 id="建立插件库-子类"><a href="#建立插件库-子类" class="headerlink" title="建立插件库 子类"></a>建立插件库 子类</h4><p>根据模板，编写库的时候也要注意编写要求：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Orcinusorca</span> :</span> <span class="keyword">public</span> BaseWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Orcinusorca</span><span class="params">(QWidget *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">    ~Orcinusorca();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::Orcinusorca *ui;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrcinusorcaPlugin</span>:</span> <span class="keyword">public</span> QObject, <span class="keyword">public</span> PluginLibrary</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line">    Q_PLUGIN_METADATA(IID <span class="string">&quot;PluginInterface/1.0&quot;</span>)</span><br><span class="line">    Q_INTERFACES(PluginLibrary)</span><br><span class="line">    <span class="function">BaseWidget * <span class="title">create</span><span class="params">(QWidget *parent =<span class="literal">nullptr</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">new</span>  Orcinusorca(parent);&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>很明显，加载库的时候就调用create函数，在子类中也就新建了一个widget，至于widget是什么样的，可以在ui中慢慢编辑。这就是满满的c++多态思想，一个父类，多个子类，子类们继承的虚函数实现可以是多样的、不同的。</p><p>也是很多宏，不过也是顺应着父类的Q_DECLARE_INTERFACE宏而已：</p><p><strong>Q_PLUGIN_METADATA：</strong></p><p>编辑IID，要和父类版本号保持一致才行；</p><p><strong>Q_INTERFACES：</strong></p><p>也就是上述的映射了。</p><p>​                  </p><h3 id="加载环节"><a href="#加载环节" class="headerlink" title="加载环节"></a>加载环节</h3><p>从代码上看也挺简单易懂的：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QPluginLoader <span class="title">pluginLoader</span><span class="params">(libraryPath)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!pluginLoader.load())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QObject *obj = pluginLoader.instance();</span><br><span class="line"><span class="keyword">if</span> (!obj)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PluginLibrary* pluginLib= qobject_cast&lt;PluginLibrary*&gt;(obj);</span><br><span class="line"><span class="keyword">if</span> (!pluginLib)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> obj;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BaseWidget * page = pluginLib-&gt;create(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure><p>传入库的绝对路径，得到一个obj句柄，在映射一下对应类，就可以调用create产生各个库设计的widget，得到widget后续想干嘛再干嘛咯。</p><p>​                                  </p><h3 id="来了！"><a href="#来了！" class="headerlink" title="来了！"></a>来了！</h3><p>因为只是写写demo，就随便做两个库切换一下，在上一节做的界面里，左边是列表，右边用于显示插件库的widget，最终呈现：</p><iframe height="600" width="800" frameborder="no" border="0" src="show.gif"> </iframe><p>hahaha 是的两个widget几乎没有内容，但有区别就行了吧。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> qt </tag>
+            
+            <tag> qplugin </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>从零开始的qplugin之——先弄弄图形</title>
       <link href="qplugin-demo/"/>
       <url>qplugin-demo/</url>
@@ -280,9 +301,9 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> qt </tag>
+            
+            <tag> linux </tag>
             
             <tag> qstyle </tag>
             
@@ -303,9 +324,9 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> qt </tag>
+            
+            <tag> linux </tag>
             
             <tag> qstyle </tag>
             
@@ -326,9 +347,9 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> qt </tag>
+            
+            <tag> linux </tag>
             
             <tag> qstyle </tag>
             
@@ -349,9 +370,9 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> qt </tag>
+            
+            <tag> linux </tag>
             
         </tags>
       
