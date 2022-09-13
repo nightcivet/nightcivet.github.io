@@ -45,8 +45,6 @@
 
 
     
-        <link rel="stylesheet" type="text/css" href="/css/reward.css">
-    
 
 
 
@@ -496,10 +494,10 @@
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/carousel-demo/">
+                        <a href="/carousel-demo-2/">
                             <div class="card-image">
                                 
-                                <img src="/source/_post/carousel-demo/top.jpeg" class="responsive-img" alt="qt 动画 顺序 轮播图轮播图">
+                                <img src="/top.jpeg" class="responsive-img" alt="qt 动画 顺序 轮播图轮播图">
                                 
                                 <span class="card-title">qt 动画 顺序 轮播图轮播图</span>
                             </div>
@@ -507,13 +505,12 @@
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                    ​                                     
-Show time! 
-简单来说，就是一个轮播图。
-
-切换的时候是有动画的。
-点击下面的按钮可以切换动画。
-图片可以是很多张很多张的，但显示在窗口上的只有三张，但
+                                    ​                   
+再续前缘噗嗤。
+就是补充一下首版本，加一丢丢东西。
+总所周知，首版本都是匆匆忙忙，事后就看看有什么可以细细记录一下和补充一下。
+好吧，其实也不多。
+​                        
                                 
                             </div>
                             <div class="publish-info">
@@ -558,10 +555,10 @@ Show time!
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/carousel-demo-2/">
+                        <a href="/carousel-demo/">
                             <div class="card-image">
                                 
-                                <img src="/top.jpeg" class="responsive-img" alt="qt 动画 顺序 轮播图轮播图">
+                                <img src="/source/_post/carousel-demo/top.jpeg" class="responsive-img" alt="qt 动画 顺序 轮播图轮播图">
                                 
                                 <span class="card-title">qt 动画 顺序 轮播图轮播图</span>
                             </div>
@@ -569,12 +566,13 @@ Show time!
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                    ​                   
-再续前缘噗嗤。
-就是补充一下首版本，加一丢丢东西。
-总所周知，首版本都是匆匆忙忙，事后就看看有什么可以细细记录一下和补充一下。
-好吧，其实也不多。
-​                        
+                                    ​                                     
+Show time! 
+简单来说，就是一个轮播图。
+
+切换的时候是有动画的。
+点击下面的按钮可以切换动画。
+图片可以是很多张很多张的，但显示在窗口上的只有三张，但
                                 
                             </div>
                             <div class="publish-info">
@@ -987,67 +985,13 @@ SVG是一种图像文件格式，它的英文全称为Scalable Vector Graphics�
 
     <footer class="page-footer bg-color">
     
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="/libs/aplayer/Meting.min.js"></script>
-
-    
 
     <div class="container row center-align"
-         style="margin-bottom: 0px !important;">
+         style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2022</span>
+                <span id="year">2022</span>
             
             <a href="/about" target="_blank">jal</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
@@ -1073,6 +1017,60 @@ SVG是一种图像文件格式，它的英文全称为Scalable Vector Graphics�
             <br>
 
             <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2022";
+                        var startMonth = "09";
+                        var startDate = "13";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
             
             <br>
             
@@ -1278,8 +1276,6 @@ $(function () {
     })();
 </script>
 
-    
-    <script src="/libs/others/clicklove.js" async="async"></script>
     
     
     <script async src="/libs/others/busuanzi.pure.mini.js"></script>
