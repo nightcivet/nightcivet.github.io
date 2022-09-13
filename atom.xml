@@ -128,9 +128,9 @@
     
     
     
-    <category term="shell" scheme="https://www.nightcivet.github.io/tags/shell/"/>
-    
     <category term="linux" scheme="https://www.nightcivet.github.io/tags/linux/"/>
+    
+    <category term="shell" scheme="https://www.nightcivet.github.io/tags/shell/"/>
     
   </entry>
   

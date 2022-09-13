@@ -1,0 +1,1368 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="qstyle 一步一个jio印（2）——子元素编辑 样式效果初现, 程序，IT，随笔，书籍，人生">
+    <meta name="description" content="去我的csdn博客看看呗
+
+qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则
+
+qstyle 一步一个jio印（3）—— 添加动画 水波纹效果
+
+qstyle 一步一个jio印（4）—— 整理框架 阅读理解
+
+
+">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>qstyle 一步一个jio印（2）——子元素编辑 样式效果初现 | 夜的狸猫</title>
+    <link rel="icon" type="image/png" href="/medias/logo.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="夜的狸猫" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">夜的狸猫</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">夜的狸猫</div>
+        <div class="logo-desc">
+            
+            04:30 am
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">qstyle 一步一个jio印（2）——子元素编辑 样式效果初现</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/qt/">
+                                <span class="chip bg-color">qt</span>
+                            </a>
+                        
+                            <a href="/tags/linux/">
+                                <span class="chip bg-color">linux</span>
+                            </a>
+                        
+                            <a href="/tags/qstyle/">
+                                <span class="chip bg-color">qstyle</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-10-16
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <a class="theme-btn" target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38627652" title="outline blue larger"><i class="far fa-hand-point-right"></i>去我的csdn博客看看呗</a>
+
+<a class="theme-btn" target="_blank" rel="noopener" href="https://nightcivet.site/qstyle-1/" title="outline blue larger"><i class="far fa-hand-point-right"></i>qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则</a>
+
+<a class="theme-btn" target="_blank" rel="noopener" href="https://nightcivet.site/qstyle-3/" title="outline blue larger"><i class="far fa-hand-point-right"></i>qstyle 一步一个jio印（3）—— 添加动画 水波纹效果</a>
+
+<a class="theme-btn" target="_blank" rel="noopener" href="https://nightcivet.site/qstyle-4/" title="outline blue larger"><i class="far fa-hand-point-right"></i>qstyle 一步一个jio印（4）—— 整理框架 阅读理解</a>
+
+<hr>
+<h4 id="接着干！"><a href="#接着干！" class="headerlink" title="接着干！"></a>接着干！</h4><p>以弄好一个pushbutton为目标，使劲的去看代码并抄一抄流程，适当进行改动能深入理解该地方的用处！</p>
+<p>​                             </p>
+<h4 id="还是先整合好框架然后留空"><a href="#还是先整合好框架然后留空" class="headerlink" title="还是先整合好框架然后留空"></a>还是先整合好框架然后留空</h4><p>通过查阅资料观察流程，得到基本原理。每个控件有若干个子元素构成，而插件通过修改编辑这些子元素打到修改控件外观的效果。</p>
+<p>所以步骤是一样的，代码和网上说的也差不多。基本都是编写好父类的虚函数就行了</p>
+<p>ok我们的主要编辑文件mystyle这个类，开始对它动手动脚。</p>
+<p>​                                                      </p>
+<h4 id="虚函数polish"><a href="#虚函数polish" class="headerlink" title="虚函数polish()"></a>虚函数polish()</h4><p>有三个：</p>
+<ol>
+<li>virtual void polish(QWidget *widget);</li>
+<li>virtual void polish(QPalette &amp;palette);</li>
+<li>virtual void unpolish(QWidget *widget);</li>
+</ol>
+<p>第一个设置一下悬浮，重载一下事件过滤（虽然也没写新的），再调用一下父类：</p>
+<pre class=" language-c++"><code class="language-c++">void MyStyle::polish(QWidget *widget)
+&#123;
+    if (!widget)
+        return;
+
+    if (qobject_cast<QPushButton *>(widget))
+        widget->setAttribute(Qt::WA_Hover);
+
+    if (!widget->parent() || !qobject_cast<QWidget *>(widget->parent()) || qobject_cast<QDialog *>(widget) || qobject_cast<QMainWindow *>(widget)) &#123;
+        addEventFilter(widget);
+    &#125;
+
+    // base class polishing
+    QCommonStyle::polish(widget);
+&#125;</code></pre>
+<p>第二个看名字就知道是设置调色版，先随意吧，太长了，大概就那些玩意儿，直接搬过来就是：</p>
+<pre class=" language-c++"><code class="language-c++">void MyStyle::polish(QPalette &palette)
+&#123;
+    // Colors defined in GTK adwaita style in _colors.scss
+    QColor base_color = QColor("#2c9dfc");
+    QColor text_color = QColor("black");
+    QColor bg_color = QColor("#f6f5f4");
+    QColor fg_color = QColor("#2e3436");
+    QColor selected_bg_color = QColor("#3584e4");
+    QColor selected_fg_color = QColor("white");
+    QColor osd_text_color = QColor("white");
+    QColor osd_bg_color = QColor("black");
+    QColor shadow = _helper->transparentize(bg_color, 0.9);
+
+    QColor backdrop_fg_color = _helper->mix(fg_color, bg_color);
+    QColor backdrop_base_color = _helper->darken(base_color, 0.01);
+    QColor backdrop_selected_fg_color = backdrop_base_color;
+
+    // This is the color we use as initial color for the gradient in normal state
+    // Defined in _drawing.scss button(normal)
+    QColor button_base_color = _helper->darken(QColor("#ffffff"), 0.04);
+
+    QColor link_color = _helper->darken(selected_bg_color, 0.1);
+    QColor link_visited_color = _helper->darken(selected_bg_color, 0.2);
+
+    palette.setColor(QPalette::All,      QPalette::Window,          bg_color);
+    palette.setColor(QPalette::All,      QPalette::WindowText,      fg_color);
+    palette.setColor(QPalette::All,      QPalette::Base,            base_color);
+    palette.setColor(QPalette::All,      QPalette::AlternateBase,   base_color);
+    ...
+    ...
+    ...
+&#125;</code></pre>
+<p>第三个析构，也是直接回归父类就行：</p>
+<pre class=" language-c++"><code class="language-c++">void MyStyle::unpolish(QWidget *widget)
+&#123;
+    QCommonStyle::unpolish(widget);
+&#125;</code></pre>
+<p>​                                                       </p>
+<h4 id="pixelMetric、subElementRect、styleHint、subControlRect、sizeFromContents、hitTestComplexControl"><a href="#pixelMetric、subElementRect、styleHint、subControlRect、sizeFromContents、hitTestComplexControl" class="headerlink" title="pixelMetric、subElementRect、styleHint、subControlRect、sizeFromContents、hitTestComplexControl"></a>pixelMetric、subElementRect、styleHint、subControlRect、sizeFromContents、hitTestComplexControl</h4><p>这几个虚函数都分别微调一些控件子元素的外观矩形大小，这些没有太大的改动，也先直接跳过返回父类即可：</p>
+<pre class=" language-c++"><code class="language-c++">int MyStyle::pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
+&#123;
+    return QCommonStyle::pixelMetric(metric, option, widget);
+&#125;
+
+QRect MyStyle::subElementRect(SubElement element, const QStyleOption *option, const QWidget *widget) const
+&#123;
+    return QCommonStyle::subElementRect(element, option, widget);
+&#125;
+
+int MyStyle::styleHint(StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const
+&#123;
+    return QCommonStyle::styleHint(hint, option, widget, returnData);
+&#125;
+
+QRect MyStyle::subControlRect(ComplexControl element, const QStyleOptionComplex *option, SubControl subControl, const QWidget *widget) const
+&#123;
+    return QCommonStyle::subControlRect(element, option, subControl, widget);
+&#125;
+
+QSize MyStyle::sizeFromContents(ContentsType element, const QStyleOption *option, const QSize &size, const QWidget *widget) const
+&#123;
+    return QCommonStyle::sizeFromContents(element, option, size, widget);
+&#125;
+
+QStyle::SubControl MyStyle::hitTestComplexControl(ComplexControl control, const QStyleOptionComplex *option, const QPoint &point, const QWidget *widget) const
+&#123;
+    return QCommonStyle::hitTestComplexControl(control, option, point, widget);
+&#125;</code></pre>
+<p>​                                                          </p>
+<h4 id="drawPrimitive"><a href="#drawPrimitive" class="headerlink" title="drawPrimitive"></a>drawPrimitive</h4><p>绘制PE子元素，其实暂时也不知道怎么查资料可以得到各个控件的子元素有什么，笨拙的通过打印看按钮有什么子元素可太秀了，好的通过打印看出按钮有两个PE子元素：PE_PanelButtonCommand、PE_FrameFocusRect。子元素可在官方文档中查看具体代表是什么，比如第一个官方的描述是“Button used to initiate an action”，第二个其实不用看文档也偶尔猜到是绘制聚焦时的矩形样式；</p>
+<p>分别列出来：</p>
+<pre class=" language-c++"><code class="language-c++">void MyStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+&#123;
+    StylePrimitive fcn(nullptr);
+    switch (element) &#123;
+    case PE_PanelButtonCommand:
+        fcn = &MyStyle::drawPanelButtonCommandPrimitive;
+        break;
+    case PE_FrameFocusRect:
+        fcn = &MyStyle::drawFrameFocusRectPrimitive;
+        break;
+    default:
+        break;
+    &#125;
+
+    painter->save();
+    // call function if implemented
+    if (!(fcn && (this->*fcn)(option, painter, widget))) &#123;
+        QCommonStyle::drawPrimitive(element, option, painter, widget);
+    &#125;
+    painter->restore();
+&#125;</code></pre>
+<p>其中第一句这个算是泛型指针？写着方便，也是高级写法，所指的函数参数都一样，定义是这样的：</p>
+<pre class=" language-c++"><code class="language-c++">using StylePrimitive = bool(MyStyle::*)(const QStyleOption *option, QPainter *painter, const QWidget *widget) const;</code></pre>
+<p>具体绘画函数draw…先留空，这个是真的画画的时候了。</p>
+<p>​                                                                     </p>
+<h4 id="drawComplexControl、drawItemText"><a href="#drawComplexControl、drawItemText" class="headerlink" title="drawComplexControl、drawItemText"></a>drawComplexControl、drawItemText</h4><p>前面这个定制CC子元素，看了下button没有CC子元素，也没有特殊的itemtext需求，也是直接返回父类：</p>
+<pre class=" language-c++"><code class="language-c++">void MyStyle::drawComplexControl(ComplexControl element, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
+&#123;
+    QCommonStyle::drawComplexControl(element, option, painter, widget);
+&#125;
+
+void MyStyle::drawItemText(QPainter *painter, const QRect &rect, int flags, const QPalette &palette, bool enabled,const QString &text, QPalette::ColorRole textRole) const
+&#123;
+    return QCommonStyle::drawItemText(painter, rect, flags, palette, enabled, text, textRole);
+&#125;</code></pre>
+<p>​                                                                  </p>
+<h4 id="drawControl"><a href="#drawControl" class="headerlink" title="drawControl"></a>drawControl</h4><p>定制CE子元素，button的CE有CE_PushButtonBevel、CE_PushButtonLabel。具体是什么就不再说了文档都有，也通过浅而易懂的命名知道意思了，格式一样：</p>
+<pre class=" language-c++"><code class="language-c++">void MyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+&#123;
+    StyleControl fcn(nullptr);
+    switch (element) &#123;
+    case CE_PushButtonBevel:
+        fcn = &MyStyle::drawPanelButtonCommandPrimitive;
+        break;
+    case CE_PushButtonLabel:
+        fcn = &MyStyle::drawPushButtonLabelControl;
+        break;
+    default:
+        break;
+    &#125;
+
+    painter->save();
+
+    // call function if implemented
+    if (!(fcn && (this->*fcn)(option, painter, widget))) &#123;
+        QCommonStyle::drawControl(element, option, painter, widget);
+    &#125;
+
+    painter->restore();
+&#125;</code></pre>
+<p>​                                                                                                </p>
+<h3 id="开始画画！"><a href="#开始画画！" class="headerlink" title="开始画画！"></a>开始画画！</h3><p>OK主要的虚函数都写好了，剩下画画的，仔细看每个虚函数给的参数，第一个是option包含着控件的属性，第二个画笔，第三个就是它自己，用这些参数足以开始画画了！</p>
+<p>​                                                                                  </p>
+<h4 id="drawFrameFocusRectPrimitive"><a href="#drawFrameFocusRectPrimitive" class="headerlink" title="drawFrameFocusRectPrimitive"></a>drawFrameFocusRectPrimitive</h4><p>这个在adwaita源码中很明显的，它把聚焦矩形缩小一点，然后再用虚线画出这个矩形，效果是这样：</p>
+<p><img src="/qstyle-2/adwaita-button.png" alt="adwaita-button"></p>
+<p>代码：</p>
+<pre class=" language-c++"><code class="language-c++">bool MyStyle::drawFrameFocusRectPrimitive(const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+&#123;
+    const State &state(option->state);
+    QRectF rect(QRectF(option->rect).adjusted(0, 0, -1, -1));
+    const QPalette &palette(option->palette);
+
+    if (rect.width() < 10)
+        return true;
+
+    QColor outlineColor(Helper::mix(palette.color(QPalette::Window), palette.color(QPalette::WindowText), 0.35));
+    QPen pen(outlineColor, 1);
+    pen.setStyle(Qt::CustomDashLine);
+    pen.setDashPattern(QVector<qreal>() << 2 << 1);
+
+    painter->setRenderHint(QPainter::Antialiasing, false);
+
+    painter->setPen(pen);
+    painter->drawRoundedRect(rect, 2, 2);
+
+    return true;
+&#125;</code></pre>
+<p>也是显而易懂的，得到矩形后缩小，设置颜色，设置画笔，画矩形。<br>这个不太喜欢，直接去掉算了。</p>
+<p>其中这个helper是用作渲染的类，主要作用是调色和封装一些画矩形的函数，其实这里可以随便上一种颜色即可，这个类就不详细说明了。</p>
+<p>​                                                                     </p>
+<h4 id="drawPanelButtonCommandPrimitive"><a href="#drawPanelButtonCommandPrimitive" class="headerlink" title="drawPanelButtonCommandPrimitive"></a>drawPanelButtonCommandPrimitive</h4><p>这个是相当于初始化按钮绘制的函数了，代码：</p>
+<pre class=" language-c++"><code class="language-c++">bool MyStyle::drawPanelButtonCommandPrimitive(const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+&#123;
+    // cast option and check
+    const QStyleOptionButton *buttonOption(qstyleoption_cast< const QStyleOptionButton * >(option));
+    if (!buttonOption)
+        return true;
+
+    // rect and palette
+    const QRect &rect(option->rect);
+
+    // button state
+    const State &state(option->state);
+    bool enabled(state & State_Enabled);
+    bool windowActive(state & State_Active);
+    bool mouseOver((state & State_Active) && enabled && (state & State_MouseOver));
+    bool hasFocus((enabled && (state & State_HasFocus)) && !(widget && widget->focusProxy()));
+    bool sunken(state & (State_On | State_Sunken));
+    bool flat(buttonOption->features & QStyleOptionButton::Flat);
+
+    if (flat) &#123;
+        // define colors and render
+        const QPalette &palette(option->palette);
+        QColor color(_helper->toolButtonColor(palette, mouseOver, hasFocus, sunken));
+        _helper->renderToolButtonFrame(painter, rect, color, sunken);
+    &#125; else &#123;
+        // update button color from palette in case button is default
+        QPalette palette(option->palette);
+        if (enabled && buttonOption->features & QStyleOptionButton::DefaultButton) &#123;
+            QColor button(palette.color(QPalette::Button));
+            QColor base(palette.color(QPalette::Base));
+            palette.setColor(QPalette::Button, Helper::mix(button, base, 0.7));
+        &#125;
+
+        QColor shadow(palette.color(QPalette::Shadow));
+        QColor outline(_helper->buttonOutlineColor(palette, mouseOver, hasFocus));
+        QColor background(_helper->buttonBackgroundColor(palette, mouseOver, hasFocus, sunken));
+        // render
+        _helper->renderButtonFrame(painter, rect, background, outline, shadow, hasFocus, sunken, mouseOver, enabled && windowActive);
+    &#125;
+
+    return true;
+&#125;</code></pre>
+<p>到这里发现绘制的流程基本也一致，显示获取rect要操作的矩形，获取各种状态参数，然后根据这些数据绘制即可，这是通过获取这个按钮的是否透明、点击、鼠标悬浮、使能失能等参数去画，这个_helper也只是封装了这个过程，也不过是判断状态state作出相应绘制而已。</p>
+<p>​                                                                       </p>
+<h4 id="drawPushButtonLabelControl"><a href="#drawPushButtonLabelControl" class="headerlink" title="drawPushButtonLabelControl"></a>drawPushButtonLabelControl</h4><p>这里看了一下，基本也就判断下状态，其中有个判断是否有文字并且点击时字体矩形会稍微网右下角倾斜的效果，这个就实现了比较动态的感觉。</p>
+<pre class=" language-c++"><code class="language-c++">if (hasText && textRect.isValid()) &#123;
+        if (enabled && !sunken && !mouseOver && !flat) &#123;
+            drawItemText(painter, textRect.adjusted(0, 1, 0, 1), textFlags, palette, false, buttonOption->text, QPalette::Light);
+        &#125;
+        drawItemText(painter, textRect, textFlags, palette, enabled, buttonOption->text, textRole);
+&#125;</code></pre>
+<p>​                                                                 </p>
+<h3 id="看看成果！"><a href="#看看成果！" class="headerlink" title="看看成果！"></a>看看成果！</h3><p>还记得demo吗，记得上面有一句QApplication::setStyle()吗？</p>
+<p>现在把它弄成QApplication::setStyle(“mystyle”);运行看看：</p>
+<iframe height="343" width="785" frameborder="no" border="0" src="demo.gif"></iframe>    
+
+
+
+
+
+<p>​                                                                                                                                           </p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">jal</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.nightcivet.github.io/qstyle-2/">https://www.nightcivet.github.io/qstyle-2/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">jal</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/qt/">
+                                    <span class="chip bg-color">qt</span>
+                                </a>
+                            
+                                <a href="/tags/linux/">
+                                    <span class="chip bg-color">linux</span>
+                                </a>
+                            
+                                <a href="/tags/qstyle/">
+                                    <span class="chip bg-color">qstyle</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/qstyle-3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="qstyle 一步一个jio印（3）—— 添加动画 水波纹效果">
+                        
+                        <span class="card-title">qstyle 一步一个jio印（3）—— 添加动画 水波纹效果</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-22
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            jal
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/qt/">
+                        <span class="chip bg-color">qt</span>
+                    </a>
+                    
+                    <a href="/tags/linux/">
+                        <span class="chip bg-color">linux</span>
+                    </a>
+                    
+                    <a href="/tags/qstyle/">
+                        <span class="chip bg-color">qstyle</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/qstyle-1/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则">
+                        
+                        <span class="card-title">qstyle 一步一个jio印（1）——工程目录建设 cmakelist规则</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            jal
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/qt/">
+                        <span class="chip bg-color">qt</span>
+                    </a>
+                    
+                    <a href="/tags/linux/">
+                        <span class="chip bg-color">linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 夜的狸猫<br />'
+            + '文章作者: jal<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022</span>
+            
+            <a href="/about" target="_blank">jal</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2022";
+                        var startMonth = "09";
+                        var startDate = "13";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="mailto:419726410@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=419726410" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 419726410" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
