@@ -5,27 +5,6 @@
     
     <entry>
       <title>qt 动画 顺序 轮播图轮播图</title>
-      <link href="/carousel-demo/"/>
-      <url>/carousel-demo/</url>
-      
-        <content type="html"><![CDATA[<p>​                                     </p><h3 id="Show-time"><a href="#Show-time" class="headerlink" title="Show time!"></a>Show time!</h3><iframe height="320" width="900" frameborder="no" border="0" src="show.gif"> </iframe>简单来说，就是一个轮播图。<p>切换的时候是有动画的。</p><p>点击下面的按钮可以切换动画。</p><p>图片可以是很多张很多张的，但显示在窗口上的只有三张，但它们的顺序是不会变的。</p><p>如果能直接有qml上面的pathview的组件能直接使用那就更好了，就不能自己敲widget了。</p><p>​                   </p><h3 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h3><p>首先，大概是这么一个窗口：</p><p><img src="/carousel-demo/designer.png"></p><p>其中，灰色部分就是整个widget的大小，就是说leftprepare和rightprepare是在widget外的，就是准备着的。</p><p>左移和右移差不多，那只要明白左移一次的要点基本就差不多了：</p><h4 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h4><p>移动由qanimation实现，就是动画，动画说白了就是产生一堆间隔很小很小的数列设置进控件的属性，所以改变label的geometry就有了动画移动的效果。</p><h4 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h4><p>位置是先固定好的，由于五个label的geometry会改变，所以先定义五个rect记录着固定的位置</p><h4 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h4><p>重中之重，看起来再移动，其实并没有真正的移动。</p><p>一次左移，众所周知，就是left移到leftprepare，middle移到left，right移到left，rightprepare移到right，没错是这样，但如果想有第二次，第三次，第n次，就必须做一些顺序处理了，毕竟位置已经都变了。</p><p>哈哈哈但天才并不想处理label，处理的是图片的顺序。</p><p>上面 [ 位置 ] 的用法来了，简单的说，无论移动多少次，label们左移都是从left rect的位置移到leftprepare rect的位置，middle rect移到left rect…..，移动负责的只是显示了移动的效果。</p><h4 id="顺序"><a href="#顺序" class="headerlink" title="顺序"></a>顺序</h4><p>既然不处理控件移动后的顺序问题，还是得处理图片的顺序问题。加入从左到右插入了图片12345。</p><p>左移第一次，啥也不用动。</p><p>左移第二次开始，labelleft就要插入图片3了，图片顺序也就变成了23451。</p><p>换种说法，第一次左移，显示了图片2345的左移动画：</p><p><img src="/carousel-demo/move_1.png"></p><p>第二次左移则显示3451的左移动画：</p><p><img src="/carousel-demo/move_2.png"></p><p>第n(n&gt;1)次左移，先把labels上面的图片清空一遍再插入好新的图片顺序，显示图片(n+1)(n+2)…的移动动画，n&gt;图片数量时，用取余操作得到尾数即可（哇！是数学！），而label们只是重复的在固定的rect之间做移动。</p><p>而当左移完立刻搞一个右移，那又是另一种情况了，但道理是相同的，把图片顺序弄好就行。</p><h4 id="按钮控制"><a href="#按钮控制" class="headerlink" title="按钮控制"></a>按钮控制</h4><p>一张图片一个按钮，用buttongroup控制按钮，用变量对应图片和按钮，图片的按钮是一一对应的。</p><h4 id="移动数次"><a href="#移动数次" class="headerlink" title="移动数次"></a>移动数次</h4><p>当前显示的图片、按钮是1时，直接点击按钮3，也就是右移两次。</p><p>这个也好解决，加个定时器触发剩余次数就行了，至于定时器的时间，刚好就是动画执行的时间，等动画执行完就可以触发定时器进行下一次的移动。</p><p>值得注意，图片顺序是不能乱的，当移动数次的时候它在操作着这些顺序，这时顺序就不能再动了。必须等所有移动次数执行完再进行新一轮的移动。</p><p>​                           </p><h3 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h3><p>把左移和右移的封装成一个函数，需要的时候调用就行。</p><p>ui里总共只有五个label，用链表直接把label们放进去，其中每次移动包含四个label的动画，左移和右移的动画是不同的，最好区分一下：</p><pre class=" language-c++"><code class="language-c++">for (int i = 0; i < 4; i++)&#123;    QPropertyAnimation *animation = new QPropertyAnimation(labelList.at(i), "geometry");    animationLeftList << animation;&#125;for (int i = 0; i < 4; i++)&#123;    QPropertyAnimation *animation = new QPropertyAnimation(labelList.at(4-i), "geometry");    animationRightList << animation;&#125;</code></pre><p>​                                                                  </p><p><strong>移动函数主要包括这些内容：</strong></p><p><strong>移动时启动动画，用QParallelAnimationGroup把管理四个动画：</strong></p><pre class=" language-c++"><code class="language-c++">QParallelAnimationGroup *m_group;m_group = new QParallelAnimationGroup(this);for (int i = 0; i < 4; i++)&#123;    animationRightList.at(i)->setDuration(mIntervalMsec);    animationRightList.at(i)->setStartValue(rectList.at(x);    animationRightList.at(i)->setEndValue(rectList.at(x));    animationRightList.at(i)->setLoopCount(1);    m_group->addAnimation(animationRightList.at(i));&#125;m_group->setDirection(QAbstractAnimation::Forward);m_group->start();</code></pre><p><strong>至于这个rectList以及后面的节点就看是左移函数还是右移函数了。</strong></p><p><strong>用两个flag（bool haveMovedLeftOnce\haveMovedRightOnce）处理判断是不是第一次移动，因为第一次移动是不用处理图片顺序的：</strong></p><pre class=" language-c++"><code class="language-c++">if (haveMovedLeftOnce)&#123;    imageOrderMove(DIRECTION_LEFT);&#125;else    haveMovedLeftOnce = true;</code></pre><p><strong>同时再新加变量定义移动顺序，如果左移完右移，图片顺序以及flag都是要更新的：</strong></p><pre class=" language-c++"><code class="language-c++">if (mDirection == DIRECTION_RIGHT)&#123;    haveMovedLeftOnce = false;    imageOrderMove(DIRECTION_RIGHT);&#125;</code></pre><p><strong>记得每次移动执行的时候，要给mDirection赋值，也要初始化这个值为除左移右移的两个值，即枚举变量了：</strong></p><pre class=" language-c++"><code class="language-c++">enum DIRECTION&#123;DIRECTION_LEFT = 0, DIRECTION_RIGHT, DIRECTION_NONE&#125;;</code></pre><p>​                               </p><p>这个ImageOrderMove，就是处理图片顺序的时候了，其实图片顺序相当于真正的轮播移动顺序了，定义好图片左移和右移的图片列表，方便插入label：</p><pre class=" language-c++"><code class="language-c++">void CarouselWidget::imageOrderMove(DIRECTION direction)&#123;    if (direction == DIRECTION_RIGHT)&#123;        QList<QImage *> tempList = mImageList;        for (int i = mImageList.count() - 1; i > 0 ; i--)&#123;            mImageList.replace(i, tempList.at(i-1));        &#125;        mImageList.replace(0, tempList.at(mImageList.count()-1));        for (int i = 0; i < labelList.count(); i++)&#123;            labelList.at(i)->clear();            labelList.at(i)->setPixmap(QPixmap::fromImage(mImageList.at(i)->scaled(labelList.at(i)->width(),labelList.at(i)->height(),Qt::KeepAspectRatio)));        &#125;    &#125;else if (direction == DIRECTION_LEFT)&#123;        QList<QImage *> tempList = mImageList;        for (int i = 0; i < mImageList.count() - 1; i++)&#123;            mImageList.replace(i, tempList.at(i+1));        &#125;        mImageList.replace(mImageList.count()-1, tempList.at(0));        for (int i = 0; i < labelList.count(); i++)&#123;            labelList.at(i)->clear();            labelList.at(i)->setPixmap(QPixmap::fromImage(mImageList.at(i)->scaled(labelList.at(i)->width(),labelList.at(i)->height(),Qt::KeepAspectRatio)));        &#125;    &#125;&#125;</code></pre><p>​                     </p><p>至于button、buttongroup：</p><pre class=" language-c++"><code class="language-c++">for (int i = 0; i < cnt; i++)&#123;    QPushButton *button = new QPushButton(ui->widgetButtons);    button->setMaximumSize(10,10);    button->setStyleSheet("QPushButton&#123;background-color: gray;  border-radius: 4px;border: 1px;&#125;"                          "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"                         );    btnsGroup->addButton(button);    btnsGroup->setId(button, i);&#125;connect( btnsGroup, SIGNAL(buttonClicked (int)), this, SLOT(btnClickEvent(int)) );btnsGroup->button(currentIndex)->setStyleSheet("QPushButton&#123;background-color: blue;  border-radius: 4px;border: 1px;&#125;"                                               "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"                                              );</code></pre><p>额记得要setId，不然后续遍历buttongroup的时候id是不对应的，很容易就段错误了。</p><p>而currentIndex就是对应当前中间的图片了。</p><p>点击的时候设置一下样式、判断一下左移还是右移，以及移动次数进行移动就行了：</p><pre class=" language-c++"><code class="language-c++">for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;    if (i == index)&#123;        btnsGroup->button(i)->setStyleSheet("QPushButton&#123;background-color: blue;  border-radius: 4px;border: 1px;&#125;"        "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"    );    &#125;else&#123;        btnsGroup->button(i)->setStyleSheet("QPushButton&#123;background-color: gray;  border-radius: 4px;border: 1px;&#125;"        "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"    );    &#125;&#125;    if (currentIndex > index)&#123;        mLeftMoveTimes = currentIndex - index;        currentIndex = index;        mTimer->disconnect();        connect(mTimer, SIGNAL(timeout()), this, SLOT(moveLeftOnce()));        for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;            btnsGroup->button(i)->setEnabled(false);        &#125;        moveLeftOnce();        mTimer->start(mIntervalMsec+10);    &#125;else if (index > currentIndex)&#123;        mLeftMoveTimes = index - currentIndex;        currentIndex = index;        mTimer->disconnect();        connect(mTimer, SIGNAL(timeout()), this, SLOT(moveRightOnce()));            for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;        btnsGroup->button(i)->setEnabled(false);    &#125;    moveRightOnce();    mTimer->start(mIntervalMsec+10);&#125;</code></pre><p>移动的时候button失能，移动完使能回来就行了，同时添加变量(mLeftMoveTimes)控制移动次数，所以在移动函数最前面加上：</p><pre class=" language-c++"><code class="language-c++">if (mLeftMoveTimes != 0)&#123;    mLeftMoveTimes--;&#125;else&#123;    mTimer->stop();    for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;        btnsGroup->button(i)->setEnabled(true);    &#125;    return ;&#125;</code></pre><p>​                       </p><h3 id="Done！"><a href="#Done！" class="headerlink" title="Done！"></a>Done！</h3><p>基本第一版本就这样结束了，还是怀念qml的pathview啊，多么方便快捷啊！</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> qt </tag>
-            
-            <tag> c++ </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>qt 动画 顺序 轮播图轮播图</title>
       <link href="/carousel-demo-2/"/>
       <url>/carousel-demo-2/</url>
       
@@ -35,9 +14,30 @@
       
         <tags>
             
+            <tag> c++ </tag>
+            
             <tag> qt </tag>
             
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>qt 动画 顺序 轮播图轮播图</title>
+      <link href="/carousel-demo/"/>
+      <url>/carousel-demo/</url>
+      
+        <content type="html"><![CDATA[<p>​                                     </p><h3 id="Show-time"><a href="#Show-time" class="headerlink" title="Show time!"></a>Show time!</h3><iframe height="320" width="900" frameborder="no" border="0" src="show.gif"> </iframe>简单来说，就是一个轮播图。<p>切换的时候是有动画的。</p><p>点击下面的按钮可以切换动画。</p><p>图片可以是很多张很多张的，但显示在窗口上的只有三张，但它们的顺序是不会变的。</p><p>如果能直接有qml上面的pathview的组件能直接使用那就更好了，就不能自己敲widget了。</p><p>​                   </p><h3 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h3><p>首先，大概是这么一个窗口：</p><p><img src="/carousel-demo/designer.png"></p><p>其中，灰色部分就是整个widget的大小，就是说leftprepare和rightprepare是在widget外的，就是准备着的。</p><p>左移和右移差不多，那只要明白左移一次的要点基本就差不多了：</p><h4 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h4><p>移动由qanimation实现，就是动画，动画说白了就是产生一堆间隔很小很小的数列设置进控件的属性，所以改变label的geometry就有了动画移动的效果。</p><h4 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h4><p>位置是先固定好的，由于五个label的geometry会改变，所以先定义五个rect记录着固定的位置</p><h4 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h4><p>重中之重，看起来再移动，其实并没有真正的移动。</p><p>一次左移，众所周知，就是left移到leftprepare，middle移到left，right移到left，rightprepare移到right，没错是这样，但如果想有第二次，第三次，第n次，就必须做一些顺序处理了，毕竟位置已经都变了。</p><p>哈哈哈但天才并不想处理label，处理的是图片的顺序。</p><p>上面 [ 位置 ] 的用法来了，简单的说，无论移动多少次，label们左移都是从left rect的位置移到leftprepare rect的位置，middle rect移到left rect…..，移动负责的只是显示了移动的效果。</p><h4 id="顺序"><a href="#顺序" class="headerlink" title="顺序"></a>顺序</h4><p>既然不处理控件移动后的顺序问题，还是得处理图片的顺序问题。加入从左到右插入了图片12345。</p><p>左移第一次，啥也不用动。</p><p>左移第二次开始，labelleft就要插入图片3了，图片顺序也就变成了23451。</p><p>换种说法，第一次左移，显示了图片2345的左移动画：</p><p><img src="/carousel-demo/move_1.png"></p><p>第二次左移则显示3451的左移动画：</p><p><img src="/carousel-demo/move_2.png"></p><p>第n(n&gt;1)次左移，先把labels上面的图片清空一遍再插入好新的图片顺序，显示图片(n+1)(n+2)…的移动动画，n&gt;图片数量时，用取余操作得到尾数即可（哇！是数学！），而label们只是重复的在固定的rect之间做移动。</p><p>而当左移完立刻搞一个右移，那又是另一种情况了，但道理是相同的，把图片顺序弄好就行。</p><h4 id="按钮控制"><a href="#按钮控制" class="headerlink" title="按钮控制"></a>按钮控制</h4><p>一张图片一个按钮，用buttongroup控制按钮，用变量对应图片和按钮，图片的按钮是一一对应的。</p><h4 id="移动数次"><a href="#移动数次" class="headerlink" title="移动数次"></a>移动数次</h4><p>当前显示的图片、按钮是1时，直接点击按钮3，也就是右移两次。</p><p>这个也好解决，加个定时器触发剩余次数就行了，至于定时器的时间，刚好就是动画执行的时间，等动画执行完就可以触发定时器进行下一次的移动。</p><p>值得注意，图片顺序是不能乱的，当移动数次的时候它在操作着这些顺序，这时顺序就不能再动了。必须等所有移动次数执行完再进行新一轮的移动。</p><p>​                           </p><h3 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h3><p>把左移和右移的封装成一个函数，需要的时候调用就行。</p><p>ui里总共只有五个label，用链表直接把label们放进去，其中每次移动包含四个label的动画，左移和右移的动画是不同的，最好区分一下：</p><pre class=" language-c++"><code class="language-c++">for (int i = 0; i < 4; i++)&#123;    QPropertyAnimation *animation = new QPropertyAnimation(labelList.at(i), "geometry");    animationLeftList << animation;&#125;for (int i = 0; i < 4; i++)&#123;    QPropertyAnimation *animation = new QPropertyAnimation(labelList.at(4-i), "geometry");    animationRightList << animation;&#125;</code></pre><p>​                                                                  </p><p><strong>移动函数主要包括这些内容：</strong></p><p><strong>移动时启动动画，用QParallelAnimationGroup把管理四个动画：</strong></p><pre class=" language-c++"><code class="language-c++">QParallelAnimationGroup *m_group;m_group = new QParallelAnimationGroup(this);for (int i = 0; i < 4; i++)&#123;    animationRightList.at(i)->setDuration(mIntervalMsec);    animationRightList.at(i)->setStartValue(rectList.at(x);    animationRightList.at(i)->setEndValue(rectList.at(x));    animationRightList.at(i)->setLoopCount(1);    m_group->addAnimation(animationRightList.at(i));&#125;m_group->setDirection(QAbstractAnimation::Forward);m_group->start();</code></pre><p><strong>至于这个rectList以及后面的节点就看是左移函数还是右移函数了。</strong></p><p><strong>用两个flag（bool haveMovedLeftOnce\haveMovedRightOnce）处理判断是不是第一次移动，因为第一次移动是不用处理图片顺序的：</strong></p><pre class=" language-c++"><code class="language-c++">if (haveMovedLeftOnce)&#123;    imageOrderMove(DIRECTION_LEFT);&#125;else    haveMovedLeftOnce = true;</code></pre><p><strong>同时再新加变量定义移动顺序，如果左移完右移，图片顺序以及flag都是要更新的：</strong></p><pre class=" language-c++"><code class="language-c++">if (mDirection == DIRECTION_RIGHT)&#123;    haveMovedLeftOnce = false;    imageOrderMove(DIRECTION_RIGHT);&#125;</code></pre><p><strong>记得每次移动执行的时候，要给mDirection赋值，也要初始化这个值为除左移右移的两个值，即枚举变量了：</strong></p><pre class=" language-c++"><code class="language-c++">enum DIRECTION&#123;DIRECTION_LEFT = 0, DIRECTION_RIGHT, DIRECTION_NONE&#125;;</code></pre><p>​                               </p><p>这个ImageOrderMove，就是处理图片顺序的时候了，其实图片顺序相当于真正的轮播移动顺序了，定义好图片左移和右移的图片列表，方便插入label：</p><pre class=" language-c++"><code class="language-c++">void CarouselWidget::imageOrderMove(DIRECTION direction)&#123;    if (direction == DIRECTION_RIGHT)&#123;        QList<QImage *> tempList = mImageList;        for (int i = mImageList.count() - 1; i > 0 ; i--)&#123;            mImageList.replace(i, tempList.at(i-1));        &#125;        mImageList.replace(0, tempList.at(mImageList.count()-1));        for (int i = 0; i < labelList.count(); i++)&#123;            labelList.at(i)->clear();            labelList.at(i)->setPixmap(QPixmap::fromImage(mImageList.at(i)->scaled(labelList.at(i)->width(),labelList.at(i)->height(),Qt::KeepAspectRatio)));        &#125;    &#125;else if (direction == DIRECTION_LEFT)&#123;        QList<QImage *> tempList = mImageList;        for (int i = 0; i < mImageList.count() - 1; i++)&#123;            mImageList.replace(i, tempList.at(i+1));        &#125;        mImageList.replace(mImageList.count()-1, tempList.at(0));        for (int i = 0; i < labelList.count(); i++)&#123;            labelList.at(i)->clear();            labelList.at(i)->setPixmap(QPixmap::fromImage(mImageList.at(i)->scaled(labelList.at(i)->width(),labelList.at(i)->height(),Qt::KeepAspectRatio)));        &#125;    &#125;&#125;</code></pre><p>​                     </p><p>至于button、buttongroup：</p><pre class=" language-c++"><code class="language-c++">for (int i = 0; i < cnt; i++)&#123;    QPushButton *button = new QPushButton(ui->widgetButtons);    button->setMaximumSize(10,10);    button->setStyleSheet("QPushButton&#123;background-color: gray;  border-radius: 4px;border: 1px;&#125;"                          "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"                         );    btnsGroup->addButton(button);    btnsGroup->setId(button, i);&#125;connect( btnsGroup, SIGNAL(buttonClicked (int)), this, SLOT(btnClickEvent(int)) );btnsGroup->button(currentIndex)->setStyleSheet("QPushButton&#123;background-color: blue;  border-radius: 4px;border: 1px;&#125;"                                               "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"                                              );</code></pre><p>额记得要setId，不然后续遍历buttongroup的时候id是不对应的，很容易就段错误了。</p><p>而currentIndex就是对应当前中间的图片了。</p><p>点击的时候设置一下样式、判断一下左移还是右移，以及移动次数进行移动就行了：</p><pre class=" language-c++"><code class="language-c++">for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;    if (i == index)&#123;        btnsGroup->button(i)->setStyleSheet("QPushButton&#123;background-color: blue;  border-radius: 4px;border: 1px;&#125;"        "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"    );    &#125;else&#123;        btnsGroup->button(i)->setStyleSheet("QPushButton&#123;background-color: gray;  border-radius: 4px;border: 1px;&#125;"        "QPushButton:hover&#123;background-color: blue; border-radius: 4px;border: 1px;&#125;"    );    &#125;&#125;    if (currentIndex > index)&#123;        mLeftMoveTimes = currentIndex - index;        currentIndex = index;        mTimer->disconnect();        connect(mTimer, SIGNAL(timeout()), this, SLOT(moveLeftOnce()));        for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;            btnsGroup->button(i)->setEnabled(false);        &#125;        moveLeftOnce();        mTimer->start(mIntervalMsec+10);    &#125;else if (index > currentIndex)&#123;        mLeftMoveTimes = index - currentIndex;        currentIndex = index;        mTimer->disconnect();        connect(mTimer, SIGNAL(timeout()), this, SLOT(moveRightOnce()));            for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;        btnsGroup->button(i)->setEnabled(false);    &#125;    moveRightOnce();    mTimer->start(mIntervalMsec+10);&#125;</code></pre><p>移动的时候button失能，移动完使能回来就行了，同时添加变量(mLeftMoveTimes)控制移动次数，所以在移动函数最前面加上：</p><pre class=" language-c++"><code class="language-c++">if (mLeftMoveTimes != 0)&#123;    mLeftMoveTimes--;&#125;else&#123;    mTimer->stop();    for (int i = 0; i < btnsGroup->buttons().count(); i++)&#123;        btnsGroup->button(i)->setEnabled(true);    &#125;    return ;&#125;</code></pre><p>​                       </p><h3 id="Done！"><a href="#Done！" class="headerlink" title="Done！"></a>Done！</h3><p>基本第一版本就这样结束了，还是怀念qml的pathview啊，多么方便快捷啊！</p>]]></content>
+      
+      
+      
+        <tags>
+            
             <tag> c++ </tag>
+            
+            <tag> qt </tag>
             
         </tags>
       
@@ -163,9 +163,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> c++ </tag>
+            
+            <tag> qt </tag>
             
         </tags>
       
@@ -205,9 +205,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> c++ </tag>
+            
+            <tag> qt </tag>
             
             <tag> qml </tag>
             
@@ -228,9 +228,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> c++ </tag>
+            
+            <tag> qt </tag>
             
             <tag> qml </tag>
             
@@ -251,9 +251,9 @@
       
         <tags>
             
-            <tag> qt </tag>
-            
             <tag> c++ </tag>
+            
+            <tag> qt </tag>
             
             <tag> qml </tag>
             
@@ -274,11 +274,11 @@
       
         <tags>
             
-            <tag> c++ </tag>
-            
             <tag> dbus </tag>
             
             <tag> c </tag>
+            
+            <tag> c++ </tag>
             
         </tags>
       
@@ -297,11 +297,11 @@
       
         <tags>
             
-            <tag> c++ </tag>
-            
             <tag> dbus </tag>
             
             <tag> c </tag>
+            
+            <tag> c++ </tag>
             
         </tags>
       
@@ -320,11 +320,11 @@
       
         <tags>
             
-            <tag> c++ </tag>
-            
             <tag> dbus </tag>
             
             <tag> c </tag>
+            
+            <tag> c++ </tag>
             
         </tags>
       
